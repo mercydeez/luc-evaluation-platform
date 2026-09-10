@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+
+/*
+  Learners Education brand system.
+
+  Green (#259D4A) and deep teal (#0B434B) are taken from the official logo.
+  Everything neutral is tinted from the teal rather than mixed from grey, so the
+  interface stays in the same family as the marketing site.
+
+  Green carries one meaning in this product and only one: verified, pinned,
+  reproducible. It is never used for decoration, which is why a green badge is
+  worth reading.
+*/
+@theme {
+  --font-sans: 'Switzer', 'PP Neue Montreal', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --color-paper: #f6f7f4;
+  --color-surface: #ffffff;
+  --color-ink: #0b434b;
+  --color-ink-deep: #08343a;
+  --color-ink-soft: #3e6a70;
+  --color-ink-faint: #52777c;
+  --color-line: #dde5e0;
+  --color-line-strong: #c3d2cc;
+
+  --color-rail: #08343a;
+  --color-rail-text: #e3ede9;
+  --color-rail-muted: #8fb0ae;
+  --color-rail-line: #14484f;
+
+  --color-verified: #259d4a;
+  --color-verified-ink: #1c7738;
+  --color-verified-bg: #eaf7ee;
+  --color-verified-line: #bfe4cb;
+
+  --color-review: #e9a82c;
+  --color-review-ink: #7a5200;
+  --color-review-bg: #fcf3e1;
+  --color-review-line: #f0dcae;
+
+  --color-hold: #fa7e5c;
+  --color-hold-ink: #b0402a;
+  --color-hold-bg: #fdede7;
+  --color-hold-line: #f6cdbf;
+
+  --radius-sm: 10px;
+  --radius-card: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+
+  --shadow-card: 0 1px 2px rgb(11 67 75 / 0.05), 0 10px 26px -14px rgb(11 67 75 / 0.18);
+  --shadow-pop: 0 2px 6px rgb(11 67 75 / 0.06), 0 22px 48px -20px rgb(11 67 75 / 0.28);
+  --shadow-rail: 0 1px 2px rgb(0 0 0 / 0.3), 0 18px 40px -22px rgb(0 0 0 / 0.55);
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    /* The parts nobody draws still carry the design. */
+    accent-color: var(--color-verified);
+    caret-color: var(--color-ink);
+    scrollbar-color: var(--color-line-strong) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::selection {
+    background: #cdead7;
+    color: var(--color-ink-deep);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Numbers that sit in a column have to line up. */
+  table, .tabular, [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-verified);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  a {
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-faint);
+    background-clip: content-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    /* Grid and flex items default to min-width:auto, so a wide table inside a
+       card pushes its track wider than the viewport instead of scrolling in
+       place. Clamping here fixes it once rather than at every call site. */
+    min-width: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Machine facts are set in mono on a tinted ground: the reader can tell at a
+     glance which values the system owns and which a person wrote. */
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: -0.01em;
+    padding: 0.1875rem 0.4375rem;
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--color-ink) 6%, transparent);
+    color: var(--color-ink-soft);
+    white-space: nowrap;
+  }
+
+  .label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+}
+
+/* One authored moment: work moving through the pipeline. Everything else in the
+   product is still, because a grading queue that shimmers is a grading queue
+   nobody trusts. */
+@keyframes stage-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes pulse-run {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
