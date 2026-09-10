@@ -43,8 +43,10 @@ const PRINCIPLES = [
 ]
 
 export default function Case() {
+  // Left-aligned rather than centred: every screen in the walkthrough shares one
+  // left edge, so arrowing between them does not move the headline sideways.
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="max-w-4xl">
       <StepHead
         actions={
           <>
@@ -59,18 +61,19 @@ export default function Case() {
         }
       />
 
-      <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4">
-        {/* The lockup is drawn in deep teal, so it keeps a light ground in both themes. */}
-        <span className="rounded-lg bg-white px-3 py-2">
+      <div className="mb-12 border-y border-line py-6">
+        {/* The lockup carries a tagline, so it needs a size where the tagline is
+            legible rather than being squeezed in beside a paragraph. */}
+        <span className="inline-block rounded-lg bg-white px-4 py-3">
           <img
             src={`${import.meta.env.BASE_URL}luc-logo.svg`}
             alt="Learners Education"
-            className="h-8 w-auto"
-            width={100}
-            height={32}
+            className="h-14 w-auto"
+            width={176}
+            height={56}
           />
         </span>
-        <p className="min-w-0 flex-1 text-[0.8125rem] leading-relaxed text-ink-soft">
+        <p className="mt-5 max-w-[68ch] text-base leading-relaxed text-ink-soft">
           An institution can already grade with a model. What it cannot yet do is defend a grade. Invariant treats a
           grade as a decision record — reproducible, versioned and attributable — and every screen that follows is a
           consequence of that one commitment.
@@ -105,15 +108,15 @@ export default function Case() {
         <div className="not-prose mt-5 grid gap-3 sm:grid-cols-3">
           {ROOT_CAUSES.map((branch) => (
             <div key={branch.branch} className="rounded-card border border-line bg-surface p-4">
-              <h3 className="text-[0.875rem] font-semibold tracking-tight text-ink">{branch.branch}</h3>
+              <h3 className="text-base font-semibold tracking-tight text-ink">{branch.branch}</h3>
               <ul className="mt-2.5 space-y-1.5">
                 {branch.causes.map((cause) => (
-                  <li key={cause} className="text-[0.8125rem] leading-snug text-ink-soft">
+                  <li key={cause} className="text-sm leading-snug text-ink-soft">
                     {cause}
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 border-t border-line pt-3 text-[0.8125rem] leading-relaxed text-verified-ink">
+              <p className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-verified-ink">
                 {branch.answer}
               </p>
             </div>
@@ -133,10 +136,10 @@ export default function Case() {
             'Nothing is graded without a key. A grade that cannot be reproduced is not admitted into the record.',
           ].map((rule, i) => (
             <li key={rule} className="flex gap-3.5">
-              <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink text-[0.6875rem] font-medium text-surface">
+              <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink text-2xs font-medium text-surface">
                 {i + 1}
               </span>
-              <span className="text-[0.9375rem] leading-relaxed text-ink-soft">{rule}</span>
+              <span className="text-base leading-relaxed text-ink-soft">{rule}</span>
             </li>
           ))}
         </ol>
@@ -156,13 +159,13 @@ export default function Case() {
             <tbody className="divide-y divide-line">
               {STAKEHOLDERS.map((row) => (
                 <tr key={row.who}>
-                  <td className="py-3 pr-4 align-top text-[0.875rem] font-medium tracking-tight whitespace-nowrap text-ink">
+                  <td className="py-3 pr-4 align-top text-base font-medium tracking-tight whitespace-nowrap text-ink">
                     {row.who}
                   </td>
-                  <td className="py-3 pr-4 align-top text-[0.8125rem] leading-relaxed text-ink-soft">{row.need}</td>
-                  <td className="py-3 pr-4 align-top text-[0.8125rem] leading-relaxed text-ink-soft">{row.fear}</td>
+                  <td className="py-3 pr-4 align-top text-sm leading-relaxed text-ink-soft">{row.need}</td>
+                  <td className="py-3 pr-4 align-top text-sm leading-relaxed text-ink-soft">{row.fear}</td>
                   <td className="py-3 align-top">
-                    <Link to={row.to} className="text-[0.8125rem] font-medium whitespace-nowrap text-ink no-underline hover:underline">
+                    <Link to={row.to} className="text-sm font-medium whitespace-nowrap text-ink no-underline hover:underline">
                       {row.screen} →
                     </Link>
                   </td>
@@ -181,8 +184,8 @@ export default function Case() {
         <dl className="not-prose mt-5 divide-y divide-line border-y border-line">
           {EXCLUDED.map(([title, why]) => (
             <div key={title} className="flex flex-col gap-1.5 py-3.5 sm:flex-row sm:gap-6">
-              <dt className="shrink-0 text-[0.875rem] font-medium tracking-tight text-ink sm:w-64">{title}</dt>
-              <dd className="text-[0.8125rem] leading-relaxed text-ink-soft">{why}</dd>
+              <dt className="shrink-0 text-base font-medium tracking-tight text-ink sm:w-64">{title}</dt>
+              <dd className="text-sm leading-relaxed text-ink-soft">{why}</dd>
             </div>
           ))}
         </dl>
@@ -192,12 +195,12 @@ export default function Case() {
         <ol className="not-prose space-y-4">
           {PRINCIPLES.map(([title, body], i) => (
             <li key={title} className="flex gap-4">
-              <span className="mt-1 w-5 shrink-0 font-mono text-[0.75rem] text-ink-faint tabular-nums">
+              <span className="mt-1 w-5 shrink-0 font-mono text-xs text-ink-faint tabular-nums">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div>
-                <h3 className="text-[0.9375rem] font-medium tracking-tight text-ink">{title}</h3>
-                <p className="mt-1 max-w-[62ch] text-[0.875rem] leading-relaxed text-ink-soft">{body}</p>
+                <h3 className="text-base font-medium tracking-tight text-ink">{title}</h3>
+                <p className="mt-1 max-w-[62ch] text-sm leading-relaxed text-ink-soft">{body}</p>
               </div>
             </li>
           ))}
@@ -212,19 +215,19 @@ export default function Case() {
         />
         <div className="grid gap-px bg-line sm:grid-cols-2">
           <div className="bg-surface px-5 py-4">
-            <h3 className="text-[0.8125rem] font-semibold tracking-tight text-verified-ink">Runs for real, in your browser</h3>
-            <ul className="mt-2.5 space-y-1.5 text-[0.8125rem] leading-relaxed text-ink-soft">
+            <h3 className="text-base font-semibold tracking-tight text-verified-ink">Runs for real, in your browser</h3>
+            <ul className="mt-2.5 space-y-1.5 text-sm leading-relaxed text-ink-soft">
               <li>SHA-256 content hashing over canonicalised text, via Web Crypto</li>
               <li>Evaluation key derivation, diffing and the verdict cache</li>
               <li>The rubric engine: word counts, required sections, weights, late penalties</li>
               <li>The validation layer, including the check that quoted evidence is verbatim</li>
               <li>The append-only grade record and audit log</li>
-              <li>24 unit tests over the invariant, the gates and the record</li>
+              <li>39 unit tests over the invariant, the gates, the record and retrieval</li>
             </ul>
           </div>
           <div className="bg-surface px-5 py-4">
-            <h3 className="text-[0.8125rem] font-semibold tracking-tight text-review-ink">Stood in for</h3>
-            <ul className="mt-2.5 space-y-1.5 text-[0.8125rem] leading-relaxed text-ink-soft">
+            <h3 className="text-base font-semibold tracking-tight text-review-ink">Stood in for</h3>
+            <ul className="mt-2.5 space-y-1.5 text-sm leading-relaxed text-ink-soft">
               <li>
                 Judgement scoring, which comes from a deterministic evaluator seeded by the evaluation key rather
                 than from a language model. Swapping in a provider replaces one file.
@@ -237,7 +240,7 @@ export default function Case() {
         </div>
       </Card>
 
-      <p className="mt-8 max-w-[62ch] text-[0.8125rem] leading-relaxed text-ink-faint">
+      <p className="mt-8 max-w-[62ch] text-base leading-relaxed text-ink-faint">
         Prepared for Learners Education by Atharva Soundankar. The system design this prototype implements is set out
         in the accompanying proposal, <em>AI Assignment Evaluation Platform: consistent, explainable grading at
         institutional scale</em>.
@@ -249,8 +252,8 @@ export default function Case() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-12">
-      <h2 className="text-[1.375rem] leading-tight font-medium tracking-[-0.03em] text-ink">{title}</h2>
-      <div className="mt-4 space-y-4 text-[0.9375rem] leading-relaxed text-ink-soft [&>p]:max-w-[68ch]">{children}</div>
+      <h2 className="text-2xl leading-tight font-medium tracking-[-0.03em] text-ink">{title}</h2>
+      <div className="mt-4 space-y-4 text-base leading-relaxed text-ink-soft [&>p]:max-w-[68ch]">{children}</div>
     </section>
   )
 }

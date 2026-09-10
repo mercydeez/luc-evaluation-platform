@@ -39,7 +39,7 @@ export function EvaluationKeyChip({
               aria-expanded={isOpen}
               title={segment.label}
               className={clsx(
-                'group flex items-center gap-1.5 border-r border-line px-2.5 py-1.5 font-mono text-[0.75rem] tracking-tight transition-colors last:border-r-0',
+                'group flex items-center gap-1.5 border-r border-line px-2.5 py-1.5 font-mono text-xs tracking-tight transition-colors last:border-r-0',
                 isOpen && 'bg-ink text-surface',
                 !isOpen && moved && 'bg-hold-bg text-hold-ink',
                 !isOpen && unpinned && !moved && 'bg-review-bg text-review-ink',
@@ -64,8 +64,8 @@ export function EvaluationKeyChip({
           className="mt-2 max-w-xl rounded-card border border-line bg-paper px-3.5 py-3"
           style={{ animation: 'stage-in 220ms var(--ease-out-quint)' }}
         >
-          <p className="text-[0.75rem] font-semibold tracking-tight text-ink">{active.label}</p>
-          <p className="mt-1 text-[0.8125rem] leading-relaxed text-ink-soft">{active.note}</p>
+          <p className="text-xs font-semibold tracking-tight text-ink">{active.label}</p>
+          <p className="mt-1 text-base leading-relaxed text-ink-soft">{active.note}</p>
         </div>
       )}
     </div>
@@ -77,7 +77,7 @@ export function KeyRef({ id, className }: { id: string; className?: string }) {
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1 rounded-md bg-ink/6 px-1.5 py-0.5 font-mono text-[0.75rem] tracking-tight text-ink-soft',
+        'inline-flex items-center gap-1 rounded-md bg-ink/6 px-1.5 py-0.5 font-mono text-2xs tracking-tight text-ink-soft',
         className,
       )}
     >

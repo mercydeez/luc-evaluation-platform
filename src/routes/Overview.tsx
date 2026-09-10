@@ -66,7 +66,7 @@ export default function Overview() {
             action={
               <Link
                 to="/review"
-                className="text-[0.8125rem] font-medium text-ink no-underline hover:underline"
+                className="text-sm font-medium text-ink no-underline hover:underline"
               >
                 Open queue →
               </Link>
@@ -147,22 +147,22 @@ function DeterminismPanel({
               className={clean ? 'size-4 text-[#3FBF6E]' : 'size-4 text-hold'}
               strokeWidth={2}
             />
-            <span className="text-[0.6875rem] font-medium tracking-[0.08em] text-rail-muted uppercase">
+            <span className="font-mono text-2xs tracking-[0.08em] text-rail-muted uppercase">
               Determinism check
             </span>
           </div>
-          <h2 className="mt-3 text-[1.5rem] leading-[1.15] font-medium tracking-[-0.03em] text-white text-balance sm:text-[1.75rem]">
+          <h2 className="mt-3 text-2xl font-medium tracking-[-0.03em] text-white text-balance">
             {clean
               ? 'No submission in this record has ever received two different grades.'
               : `${divergences} evaluation key${divergences > 1 ? 's have' : ' has'} produced more than one grade.`}
           </h2>
-          <p className="mt-3 text-[0.875rem] leading-relaxed text-rail-muted">
+          <p className="mt-3 text-sm leading-relaxed text-rail-muted">
             This is checked, not claimed. Every grade in the record is grouped by its evaluation key and counted;
             a key that ever produced two different marks would appear here as a divergence.
           </p>
           <Link
             to="/consistency"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-rail-line px-3.5 py-1.5 text-[0.8125rem] font-medium text-rail-text no-underline transition-colors hover:border-[#3FBF6E]/60 hover:text-white"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-rail-line px-3.5 py-1.5 text-sm font-medium text-rail-text no-underline transition-colors hover:border-[#3FBF6E]/60 hover:text-white"
           >
             <FlaskConical className="size-3.5" strokeWidth={1.75} />
             Replay the defect
@@ -170,7 +170,7 @@ function DeterminismPanel({
           </Link>
         </div>
 
-        <dl className="grid flex-1 grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-4 lg:max-w-md">
+        <dl className="grid flex-1 grid-cols-2 gap-x-10 gap-y-6 sm:grid-cols-4">
           <RailFigure value={divergences} label="Grade divergences" accent={clean} />
           <RailFigure value={evaluations} label="Evaluations recorded" />
           <RailFigure value={keys} label="Distinct keys" />
@@ -185,13 +185,13 @@ function RailFigure({ value, label, accent }: { value: number; label: string; ac
   return (
     <div>
       <dd
-        className={`text-[1.75rem] leading-none font-medium tracking-[-0.03em] tabular-nums ${
+        className={`text-2xl leading-none font-medium tracking-[-0.03em] tabular-nums ${
           accent ? 'text-[#3FBF6E]' : 'text-white'
         }`}
       >
         {value}
       </dd>
-      <dt className="mt-2 text-[0.6875rem] leading-tight tracking-[0.04em] text-rail-muted uppercase">{label}</dt>
+      <dt className="mt-2.5 font-mono text-2xs tracking-[0.04em] whitespace-nowrap text-rail-muted uppercase">{label}</dt>
     </div>
   )
 }
@@ -217,24 +217,24 @@ function QueueTable({ verdicts }: { verdicts: Verdict[] }) {
                 <td className="px-5 py-3">
                   <Link
                     to={`/review/${verdict.submissionId}`}
-                    className="text-[0.875rem] font-medium tracking-tight text-ink no-underline hover:underline"
+                    className="text-sm font-medium tracking-tight text-ink no-underline hover:underline"
                   >
                     {submission?.student ?? verdict.submissionId}
                   </Link>
                   <div className="mt-0.5 flex items-center gap-2">
-                    <span className="text-[0.75rem] text-ink-faint">
+                    <span className="text-xs text-ink-faint">
                       {submission?.studentId} · attempt {submission?.attempt}
                     </span>
                     <KeyRef id={verdict.keyId} />
                   </div>
                 </td>
                 <td className="px-3 py-3 whitespace-nowrap">
-                  <span className="text-[0.9375rem] font-medium text-ink tabular-nums">{verdict.total}</span>
-                  <span className="ml-1.5 text-[0.75rem] text-ink-faint">{verdict.letter}</span>
+                  <span className="text-base font-medium text-ink tabular-nums">{verdict.total}</span>
+                  <span className="ml-1.5 text-xs text-ink-faint">{verdict.letter}</span>
                 </td>
                 <td className="px-3 py-3">
                   <span
-                    className={`font-mono text-[0.8125rem] tabular-nums ${
+                    className={`font-mono text-sm tabular-nums ${
                       borderline ? 'text-review-ink' : 'text-ink-soft'
                     }`}
                   >
@@ -269,10 +269,10 @@ function ExceptionRow({ id, outcome }: { id: string; outcome: Outcome }) {
         <Badge tone={outcome.kind === 'held' ? 'review' : 'hold'} dot>
           {outcome.kind === 'held' ? 'Held at gate' : 'Rejected at intake'}
         </Badge>
-        <span className="truncate text-[0.75rem] text-ink-faint">{submission?.fileName}</span>
+        <span className="truncate text-xs text-ink-faint">{submission?.fileName}</span>
       </div>
-      <p className="mt-2 text-[0.875rem] font-medium tracking-tight text-ink">{submission?.student}</p>
-      <p className="mt-1 text-[0.8125rem] leading-relaxed text-ink-soft">{outcome.reason}</p>
+      <p className="mt-2 text-sm font-medium tracking-tight text-ink">{submission?.student}</p>
+      <p className="mt-1 text-base leading-relaxed text-ink-soft">{outcome.reason}</p>
     </li>
   )
 }

@@ -52,10 +52,10 @@ export function Tour({ state }: { state: TourState }) {
       >
         <div className="flex items-start gap-4 border-b border-line px-6 py-5">
           <div className="min-w-0 flex-1">
-            <h2 className="text-[1.25rem] leading-tight font-medium tracking-[-0.02em] text-ink">
+            <h2 className="text-2xl leading-tight font-medium tracking-[-0.02em] text-ink">
               Nine steps, in the order the argument is made
             </h2>
-            <p className="mt-2 text-[0.875rem] leading-relaxed text-ink-soft">
+            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
               Each screen is one move in a case for handing grading to software. Walk them in order and the last
               screen follows from the first. Nothing here needs a login, a server, or a model.
             </p>
@@ -78,11 +78,11 @@ export function Tour({ state }: { state: TourState }) {
                 onClick={state.close}
                 className="flex items-baseline gap-4 px-6 py-3 no-underline transition-colors hover:bg-paper"
               >
-                <span className="w-4 shrink-0 font-mono text-[0.75rem] text-ink-faint tabular-nums">{step.n}</span>
+                <span className="w-4 shrink-0 font-mono text-xs text-ink-faint tabular-nums">{step.n}</span>
                 <span className="min-w-0">
-                  <span className="text-[0.9375rem] font-medium tracking-tight text-ink">{step.title}</span>
-                  <span className="ml-2 text-[0.8125rem] text-ink-faint">{step.label}</span>
-                  <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-soft">{step.lede}</span>
+                  <span className="text-base font-medium tracking-tight text-ink">{step.title}</span>
+                  <span className="ml-2 text-sm text-ink-faint">{step.label}</span>
+                  <span className="mt-0.5 block text-sm leading-snug text-ink-soft">{step.lede}</span>
                 </span>
               </Link>
             </li>
@@ -92,10 +92,10 @@ export function Tour({ state }: { state: TourState }) {
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line px-6 py-4">
           {SHORTCUTS.map(([key, what]) => (
             <span key={key} className="flex items-center gap-2">
-              <kbd className="rounded border border-line bg-paper px-1.5 py-0.5 font-mono text-[0.6875rem] text-ink-soft">
+              <kbd className="rounded border border-line bg-paper px-1.5 py-0.5 font-mono text-2xs text-ink-soft">
                 {key}
               </kbd>
-              <span className="text-[0.75rem] text-ink-faint">{what}</span>
+              <span className="text-xs text-ink-faint">{what}</span>
             </span>
           ))}
         </div>
@@ -104,7 +104,7 @@ export function Tour({ state }: { state: TourState }) {
           <Badge tone="review" dot>
             Prototype
           </Badge>
-          <p className="min-w-0 flex-1 text-[0.75rem] leading-relaxed text-ink-faint">
+          <p className="min-w-0 flex-1 text-xs leading-relaxed text-ink-faint">
             Every student, mark and identifier is invented. The hashing, keys, rubric arithmetic, cache, validation
             and record are real and run in this browser; judgement comes from a deterministic evaluator, not a
             language model.

@@ -41,18 +41,18 @@ export default function Student() {
             action={<Badge tone="review" dot>With your professor</Badge>}
           />
           <div className="px-5 py-6">
-            <p className="max-w-xl text-[0.9375rem] leading-relaxed text-ink-soft">
+            <p className="max-w-xl text-base leading-relaxed text-ink-soft">
               Your submission has been evaluated and is waiting on your course owner. No mark is shown until a person
               has released it, and no mark reaches this page without the reasoning behind it.
             </p>
             <div className="mt-5">
               <Link
                 to={`/review/${STUDENT_ID}`}
-                className="text-[0.8125rem] font-medium text-ink hover:underline"
+                className="text-base font-medium text-ink hover:underline"
               >
                 Open the professor's review screen and release it →
               </Link>
-              <p className="mt-1.5 text-[0.75rem] text-ink-faint">
+              <p className="mt-1.5 text-xs text-ink-faint">
                 A demo shortcut. A student would never see this link.
               </p>
             </div>
@@ -75,14 +75,14 @@ export default function Student() {
               <div className="flex flex-wrap items-end gap-x-10 gap-y-4 px-5 py-5">
                 <div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-[2.75rem] leading-none font-medium tracking-[-0.04em] text-ink tabular-nums">
+                    <span className="text-4xl leading-none font-medium tracking-[-0.04em] text-ink tabular-nums">
                       {published.total}
                     </span>
-                    <span className="text-[1.125rem] leading-none font-medium text-ink-soft">/ 100 · {published.letter}</span>
+                    <span className="text-lg leading-none font-medium text-ink-soft">/ 100 · {published.letter}</span>
                   </div>
                   <p className="label mt-2.5">Your grade</p>
                 </div>
-                <div className="text-[0.8125rem] leading-relaxed text-ink-soft">
+                <div className="text-base leading-relaxed text-ink-soft">
                   Measured against rubric{' '}
                   <span className="chip">{verdict?.key.pins.rubricVersion.replace('rbr_', '')}</span>, the version in
                   force when you submitted. A later rubric does not change this mark.
@@ -103,22 +103,22 @@ export default function Student() {
                       <li key={criterion.id} className="px-5 py-3.5">
                         <div className="flex items-baseline justify-between gap-4">
                           <span className="flex flex-wrap items-center gap-2">
-                            <span className="text-[0.875rem] font-medium tracking-tight text-ink">{criterion.name}</span>
+                            <span className="text-sm font-medium tracking-tight text-ink">{criterion.name}</span>
                             {moved && (
                               <Badge tone="verified">
                                 adjusted from {base.score} by your professor
                               </Badge>
                             )}
                           </span>
-                          <span className="shrink-0 text-[0.875rem] font-medium text-ink tabular-nums">
+                          <span className="shrink-0 text-sm font-medium text-ink tabular-nums">
                             {criterion.score}
-                            <span className="ml-1 text-[0.75rem] font-normal text-ink-faint">/ 100</span>
+                            <span className="ml-1 text-xs font-normal text-ink-faint">/ 100</span>
                           </span>
                         </div>
                         <div className="mt-2 max-w-md">
                           <Meter value={criterion.score} tone={criterion.kind === 'mechanical' ? 'verified' : 'ink'} />
                         </div>
-                        <p className="mt-2 max-w-2xl text-[0.8125rem] leading-relaxed text-ink-soft">
+                        <p className="mt-2 max-w-2xl text-base leading-relaxed text-ink-soft">
                           {criterion.reasoning}
                         </p>
                         {criterion.lines && (
@@ -126,7 +126,7 @@ export default function Student() {
                             {criterion.lines
                               .filter((line) => line.delta < 0)
                               .map((line, i) => (
-                                <li key={i} className="text-[0.75rem] text-hold-ink">
+                                <li key={i} className="text-xs text-hold-ink">
                                   {line.delta} — {line.label}
                                 </li>
                               ))}
@@ -156,7 +156,7 @@ export default function Student() {
                   <FileDown className="size-4" strokeWidth={1.75} />
                   Download evaluation report
                 </Button>
-                <span className="self-center text-[0.75rem] text-ink-faint">Appeal window closes 21 Aug</span>
+                <span className="self-center text-xs text-ink-faint">Appeal window closes 21 Aug</span>
               </div>
             </Card>
 
@@ -188,12 +188,12 @@ export default function Student() {
                 {versions.map((version) => (
                   <li key={`${version.v}-${version.at}`} className="px-5 py-3">
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-mono text-[0.75rem] text-ink-faint">v{version.v}</span>
-                      <span className="text-[0.8125rem] font-medium text-ink tabular-nums">
+                      <span className="font-mono text-xs text-ink-faint">v{version.v}</span>
+                      <span className="text-sm font-medium text-ink tabular-nums">
                         {version.total} · {version.letter}
                       </span>
                     </div>
-                    <p className="mt-1 text-[0.75rem] text-ink-faint">
+                    <p className="mt-1 text-xs text-ink-faint">
                       {version.source === 'ai' ? 'Evaluated' : 'Adjusted by your professor'} ·{' '}
                       {new Date(version.at).toLocaleDateString('en-GB', { dateStyle: 'medium' })}
                       {version.released ? ' · released' : ''}

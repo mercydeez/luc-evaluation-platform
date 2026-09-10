@@ -35,7 +35,7 @@ export function Badge({
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium tracking-tight whitespace-nowrap',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-2xs font-medium tracking-tight whitespace-nowrap',
         TONE_SURFACE[tone],
         className,
       )}
@@ -48,7 +48,7 @@ export function Badge({
 
 /** Machine-owned values: hashes, keys, versions, timings. */
 export function Mono({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={clsx('font-mono text-[0.8125rem] tracking-tight', className)}>{children}</span>
+  return <span className={clsx('font-mono text-sm tracking-tight', className)}>{children}</span>
 }
 
 export function Card({ className, children, ...rest }: ComponentProps<'div'>) {
@@ -73,8 +73,8 @@ export function CardHead({
   return (
     <div className={clsx('flex flex-wrap items-start justify-between gap-3 border-b border-line px-5 py-4', className)}>
       <div className="min-w-0 flex-1 basis-56">
-        <h2 className="text-[0.9375rem] font-semibold tracking-tight text-ink">{title}</h2>
-        {meta && <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">{meta}</p>}
+        <h2 className="text-lg font-semibold tracking-tight text-ink">{title}</h2>
+        {meta && <p className="mt-1 text-sm leading-snug text-ink-soft">{meta}</p>}
       </div>
       <div className="shrink-0">{action}</div>
     </div>
@@ -102,7 +102,7 @@ export function Button({ variant = 'secondary', size = 'md', className, ...rest 
     <button
       className={clsx(
         'inline-flex items-center justify-center gap-2 rounded-full border font-medium tracking-tight transition-[background-color,border-color,color] duration-150 disabled:cursor-not-allowed',
-        size === 'sm' ? 'px-3 py-1.5 text-[0.8125rem]' : 'px-4 py-2 text-sm',
+        size === 'sm' ? 'px-3 py-1.5 text-sm' : 'px-4 py-2 text-sm',
         VARIANTS[variant],
         className,
       )}
@@ -129,7 +129,7 @@ export function LinkButton({
       to={to}
       className={clsx(
         'inline-flex items-center justify-center gap-2 rounded-full border font-medium tracking-tight no-underline transition-[background-color,border-color,color] duration-150',
-        size === 'sm' ? 'px-3 py-1.5 text-[0.8125rem]' : 'px-4 py-2 text-sm',
+        size === 'sm' ? 'px-3 py-1.5 text-sm' : 'px-4 py-2 text-sm',
         VARIANTS[variant],
         className,
       )}
@@ -155,14 +155,14 @@ export function Figure({
     <div className="min-w-0">
       <div
         className={clsx(
-          'text-[1.75rem] leading-none font-medium tracking-[-0.03em] tabular-nums',
+          'text-2xl leading-none font-medium tracking-[-0.03em] tabular-nums',
           tone === 'verified' ? 'text-verified-ink' : tone === 'hold' ? 'text-hold-ink' : 'text-ink',
         )}
       >
         {value}
       </div>
       <div className="label mt-2">{label}</div>
-      {note && <p className="mt-1.5 text-[0.8125rem] leading-snug text-ink-soft">{note}</p>}
+      {note && <p className="mt-1.5 text-sm leading-snug text-ink-soft">{note}</p>}
     </div>
   )
 }
@@ -190,8 +190,8 @@ export function Note({
               : 'border-line bg-paper',
       )}
     >
-      {title && <h3 className="text-[0.8125rem] font-semibold tracking-tight text-ink">{title}</h3>}
-      <div className={clsx('text-[0.8125rem] leading-relaxed text-ink-soft', title && 'mt-1.5')}>{children}</div>
+      {title && <h3 className="text-base font-semibold tracking-tight text-ink">{title}</h3>}
+      <div className={clsx('text-base leading-relaxed text-ink-soft', title && 'mt-1.5')}>{children}</div>
     </div>
   )
 }
@@ -199,8 +199,8 @@ export function Note({
 export function DataRow({ k, v }: { k: ReactNode; v: ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-4 py-2">
-      <dt className="shrink-0 text-[0.8125rem] text-ink-faint">{k}</dt>
-      <dd className="min-w-0 text-right text-[0.8125rem] font-medium text-ink">{v}</dd>
+      <dt className="shrink-0 text-sm text-ink-faint">{k}</dt>
+      <dd className="min-w-0 text-right text-sm font-medium text-ink">{v}</dd>
     </div>
   )
 }
@@ -245,14 +245,14 @@ export function StepHead({
   if (!step) return null
 
   return (
-    <header className="mb-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+    <header className="mb-8 flex flex-wrap items-start justify-between gap-x-10 gap-y-5">
       <div className="min-w-0 max-w-3xl">
         <p className="label">{kicker ?? step.kicker}</p>
         <h1 className="display mt-3 text-ink">{title ?? step.title}</h1>
-        <p className="mt-4 max-w-[62ch] text-[1.0625rem] leading-relaxed text-ink-soft">{children ?? step.lede}</p>
-        {meta && <p className="mt-3 font-mono text-[0.75rem] tracking-tight text-ink-faint">{meta}</p>}
+        <p className="mt-4 max-w-[62ch] text-base leading-relaxed text-ink-soft">{children ?? step.lede}</p>
+        {meta && <p className="mt-3 font-mono text-xs tracking-tight text-ink-faint">{meta}</p>}
       </div>
-      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      {actions && <div className="flex flex-wrap items-center gap-2 pt-6">{actions}</div>}
     </header>
   )
 }
@@ -279,7 +279,7 @@ export function MetricStrip({
         <div key={item.label} className="bg-surface px-5 py-4">
           <dd
             className={clsx(
-              'text-[1.625rem] leading-none font-medium tracking-[-0.03em] tabular-nums',
+              'text-2xl leading-none font-medium tracking-[-0.03em] tabular-nums',
               item.tone === 'verified'
                 ? 'text-verified-ink'
                 : item.tone === 'hold'
@@ -292,7 +292,7 @@ export function MetricStrip({
             {item.value}
           </dd>
           <dt className="label mt-2.5">{item.label}</dt>
-          {item.note && <p className="mt-1.5 text-[0.75rem] leading-snug text-ink-faint">{item.note}</p>}
+          {item.note && <p className="mt-1.5 text-xs leading-snug text-ink-faint">{item.note}</p>}
         </div>
       ))}
     </dl>
@@ -302,8 +302,8 @@ export function MetricStrip({
 export function Empty({ title, children }: { title: string; children?: ReactNode }) {
   return (
     <div className="px-5 py-10 text-center">
-      <p className="text-[0.9375rem] font-medium text-ink">{title}</p>
-      {children && <div className="mx-auto mt-2 max-w-md text-[0.8125rem] leading-relaxed text-ink-soft">{children}</div>}
+      <p className="text-base font-medium text-ink">{title}</p>
+      {children && <div className="mx-auto mt-2 max-w-md text-base leading-relaxed text-ink-soft">{children}</div>}
     </div>
   )
 }

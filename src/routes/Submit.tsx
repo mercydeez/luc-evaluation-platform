@@ -63,15 +63,15 @@ export default function Submit() {
                     />
                     <span className="min-w-0">
                       <span className="flex flex-wrap items-center gap-2">
-                        <span className="text-[0.875rem] font-medium tracking-tight text-ink">{item.student}</span>
+                        <span className="text-sm font-medium tracking-tight text-ink">{item.student}</span>
                         {item.corrupt && <Badge tone="hold">corrupt file</Badge>}
                         {!item.corrupt && item.ocrConfidence < 0.75 && <Badge tone="review">OCR {item.ocrConfidence}</Badge>}
                         {item.lateHours > 0 && <Badge tone="review">{item.lateHours}h late</Badge>}
                       </span>
-                      <span className="mt-0.5 block truncate font-mono text-[0.6875rem] text-ink-faint">
+                      <span className="mt-0.5 block truncate font-mono text-2xs text-ink-faint">
                         {item.fileName}
                       </span>
-                      <span className="mt-1 block text-[0.75rem] leading-snug text-ink-soft">
+                      <span className="mt-1 block text-xs leading-snug text-ink-soft">
                         {SAMPLE_NOTES[item.id]}
                       </span>
                     </span>
@@ -100,9 +100,9 @@ export default function Submit() {
                 onChange={(e) => setText(e.target.value)}
                 spellCheck={false}
                 aria-label="Extracted submission text"
-                className="h-44 w-full resize-y rounded-card border border-line bg-paper px-3 py-2.5 font-mono text-[0.75rem] leading-relaxed text-ink-soft outline-none focus:border-line-strong"
+                className="h-44 w-full resize-y rounded-card border border-line bg-paper px-3 py-2.5 font-mono text-xs leading-relaxed text-ink-soft outline-none focus:border-line-strong"
               />
-              <p className="mt-2 text-[0.75rem] text-ink-faint">
+              <p className="mt-2 text-xs text-ink-faint">
                 {text.split(/\s+/).filter(Boolean).length.toLocaleString()} words ·{' '}
                 {edited ? 'edited from the original upload' : 'as extracted'}
               </p>
@@ -130,22 +130,22 @@ export default function Submit() {
                   <EvaluationKeyChip keyValue={liveKey} />
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     {willHit ? (
-                      <Badge tone="verified" dot>
-                        <Zap className="size-3" strokeWidth={2.25} />
-                        Already in the record — this run will return the stored grade
+                      <Badge tone="verified" dot className="max-w-full whitespace-normal">
+                        <Zap className="size-3 shrink-0" strokeWidth={2.25} />
+                        In the record — this run returns the stored grade
                       </Badge>
                     ) : (
                       <Badge tone="neutral">New key — this run will be graded and recorded</Badge>
                     )}
                     {pins.temperature > 0 && (
-                      <Badge tone="hold" dot>
+                      <Badge tone="hold" dot className="max-w-full whitespace-normal">
                         Decoding unpinned — the result cannot be reproduced or stored
                       </Badge>
                     )}
                   </div>
                 </>
               ) : (
-                <p className="text-[0.8125rem] text-ink-faint">
+                <p className="text-sm text-ink-faint">
                   This file is rejected at intake, so no key is ever derived for it.
                 </p>
               )}
@@ -207,7 +207,7 @@ function OutcomePanel({ outcome, submissionId }: { outcome: NonNullable<ReturnTy
         action={
           <Link
             to={`/review/${submissionId}`}
-            className="text-[0.8125rem] font-medium text-ink no-underline hover:underline"
+            className="text-sm font-medium text-ink no-underline hover:underline"
           >
             Open in review →
           </Link>
@@ -271,7 +271,7 @@ function PinPanel({ pins, onChange }: { pins: Pins; onChange: (p: Pins) => void 
                 key={t}
                 type="button"
                 onClick={() => set('temperature', t)}
-                className={`flex-1 rounded-full border px-2 py-1.5 font-mono text-[0.75rem] transition-colors ${
+                className={`flex-1 rounded-full border px-2 py-1.5 font-mono text-xs transition-colors ${
                   pins.temperature === t
                     ? t === 0
                       ? 'border-verified bg-verified-bg text-verified-ink'
@@ -292,7 +292,7 @@ function PinPanel({ pins, onChange }: { pins: Pins; onChange: (p: Pins) => void 
             min={1}
             max={9999}
             onChange={(e) => set('seed', Number(e.target.value) || 1)}
-            className="w-24 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[0.8125rem] text-ink outline-none focus:border-line-strong"
+            className="w-24 rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-sm text-ink outline-none focus:border-line-strong"
           />
         </Field>
       </div>
@@ -307,7 +307,7 @@ function Field({ label, note, children }: { label: string; note?: string; childr
         <span className="label">{label}</span>
         {children}
       </div>
-      {note && <p className="mt-1.5 max-w-sm text-[0.75rem] leading-snug text-ink-faint">{note}</p>}
+      {note && <p className="mt-1.5 max-w-sm text-xs leading-snug text-ink-faint">{note}</p>}
     </div>
   )
 }
@@ -317,7 +317,7 @@ function Select({ value, onChange, options }: { value: string; onChange: (v: str
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-[0.75rem] text-ink outline-none focus:border-line-strong"
+      className="rounded-full border border-line bg-surface px-3 py-1.5 font-mono text-xs text-ink outline-none focus:border-line-strong"
     >
       {options.map((option) => (
         <option key={option} value={option}>

@@ -83,7 +83,7 @@ export default function Consistency() {
             setUnpinned([])
             setPinned([])
           }}
-          className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-[0.8125rem] text-ink outline-none focus:border-line-strong"
+          className="w-full max-w-full rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm text-ink outline-none focus:border-line-strong sm:w-auto"
         >
           {SUBMISSIONS.filter((s) => !s.corrupt && s.ocrConfidence >= 0.75).map((s) => (
             <option key={s.id} value={s.id}>
@@ -151,18 +151,18 @@ export default function Consistency() {
                         </td>
                         <td className="px-3 py-3 whitespace-nowrap">
                           <span className="font-medium text-ink tabular-nums">{verdict.total}</span>
-                          <span className="ml-1.5 text-[0.75rem] text-ink-faint">{verdict.letter}</span>
+                          <span className="ml-1.5 text-xs text-ink-faint">{verdict.letter}</span>
                         </td>
-                        <td className="px-3 py-3 font-mono text-[0.8125rem] text-ink-soft tabular-nums">{requests}</td>
+                        <td className="px-3 py-3 font-mono text-sm text-ink-soft tabular-nums">{requests}</td>
                         <td className="px-3 py-3">
                           {requests > 1 ? (
                             <Badge tone="verified">{requests - 1} of {requests}</Badge>
                           ) : (
-                            <span className="text-[0.8125rem] text-ink-faint">—</span>
+                            <span className="text-sm text-ink-faint">—</span>
                           )}
                         </td>
                         <td className="px-5 py-3">
-                          <span className="font-mono text-[0.75rem] text-ink-faint">
+                          <span className="font-mono text-xs text-ink-faint">
                             {keySegments(verdict.key).slice(1).map((s) => s.value).join(' · ')}
                           </span>
                         </td>
@@ -176,8 +176,8 @@ export default function Consistency() {
       </Card>
 
       <section className="mt-5">
-        <h2 className="text-[1.125rem] font-medium tracking-[-0.02em] text-ink">What each pin protects</h2>
-        <p className="mt-1.5 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-soft">
+        <h2 className="text-lg font-medium tracking-[-0.02em] text-ink">What each pin protects</h2>
+        <p className="mt-1.5 max-w-2xl text-base leading-relaxed text-ink-soft">
           A grade is a function of four inputs and the settings used to decode them. Each of the six below can change
           a mark legitimately. What is not acceptable is any of them changing without being recorded.
         </p>
@@ -186,9 +186,9 @@ export default function Consistency() {
             <div key={segment.pin} className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-baseline sm:gap-6">
               <div className="flex shrink-0 items-center gap-2 sm:w-52">
                 <Lock className="size-3 shrink-0 text-verified" strokeWidth={2.5} />
-                <span className="text-[0.875rem] font-medium tracking-tight text-ink">{segment.label}</span>
+                <span className="text-base font-medium tracking-tight text-ink">{segment.label}</span>
               </div>
-              <p className="max-w-2xl text-[0.8125rem] leading-relaxed text-ink-soft">{segment.note}</p>
+              <p className="max-w-2xl text-sm leading-relaxed text-ink-soft">{segment.note}</p>
             </div>
           ))}
         </div>
@@ -249,7 +249,7 @@ function ReplayPanel({
       />
 
       <div className="px-5 py-4">
-        <p className="max-w-lg text-[0.8125rem] leading-relaxed text-ink-soft">{explain}</p>
+        <p className="max-w-lg text-base leading-relaxed text-ink-soft">{explain}</p>
       </div>
 
       {runs.length === 0 ? (
@@ -270,7 +270,7 @@ function ReplayPanel({
             <tbody className="divide-y divide-line">
               {runs.map((run) => (
                 <tr key={run.n} style={{ animation: 'stage-in 260ms var(--ease-out-quint)' }}>
-                  <td className="px-5 py-2.5 font-mono text-[0.75rem] text-ink-faint">#{run.n}</td>
+                  <td className="px-5 py-2.5 font-mono text-xs text-ink-faint">#{run.n}</td>
                   <td className="px-3 py-2.5">
                     <KeyRef id={run.keyId} />
                   </td>
@@ -283,7 +283,7 @@ function ReplayPanel({
                     >
                       {run.total}
                     </span>
-                    <span className="ml-1.5 text-[0.75rem] text-ink-faint">{run.letter}</span>
+                    <span className="ml-1.5 text-xs text-ink-faint">{run.letter}</span>
                   </td>
                   <td className="px-5 py-2.5">
                     {run.source === 'record' ? (
@@ -316,7 +316,7 @@ function ReplayPanel({
             <div>
               <p
                 className={clsx(
-                  'text-[0.875rem] font-medium tracking-tight',
+                  'text-sm font-medium tracking-tight',
                   tone === 'verified' ? 'text-verified-ink' : 'text-hold-ink',
                 )}
               >
@@ -324,7 +324,7 @@ function ReplayPanel({
                   ? `One grade across ${RUNS} runs`
                   : `${distinct.size} different grades across ${RUNS} runs`}
               </p>
-              <p className={clsx('mt-1 text-[0.8125rem] leading-relaxed', tone === 'verified' ? 'text-verified-ink/85' : 'text-hold-ink/85')}>
+              <p className={clsx('mt-1 text-base leading-relaxed', tone === 'verified' ? 'text-verified-ink/85' : 'text-hold-ink/85')}>
                 {distinct.size > 1
                   ? `Range ${Math.min(...runs.map((r) => r.total))} to ${Math.max(...runs.map((r) => r.total))}. None of these runs was admitted to the record, because none of them can be reproduced. Note that the evaluation key is identical across all five — the key is honest about the inputs, and unpinned decoding is an input it cannot capture.`
                   : modelCalls === 0

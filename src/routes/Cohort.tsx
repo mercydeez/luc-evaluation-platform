@@ -75,21 +75,21 @@ export default function Cohort() {
           <div className="space-y-2 px-5 py-5">
             {cohort.distribution.map((band) => (
               <div key={band.band} className="flex items-center gap-3">
-                <span className="w-7 shrink-0 font-mono text-[0.75rem] text-ink-faint tabular-nums">{band.band}</span>
+                <span className="w-7 shrink-0 font-mono text-xs text-ink-faint tabular-nums">{band.band}</span>
                 <div className="h-5 min-w-0 flex-1 overflow-hidden rounded-[4px] bg-ink/6">
                   <div
                     className="h-full rounded-[4px] bg-verified transition-[width] duration-700"
                     style={{ width: `${(band.count / peak) * 100}%` }}
                   />
                 </div>
-                <span className="w-6 shrink-0 text-right font-mono text-[0.75rem] text-ink-soft tabular-nums">
+                <span className="w-6 shrink-0 text-right font-mono text-xs text-ink-soft tabular-nums">
                   {band.count || ''}
                 </span>
               </div>
             ))}
           </div>
           <div className="border-t border-line px-5 py-4">
-            <p className="max-w-2xl text-[0.8125rem] leading-relaxed text-ink-soft">
+            <p className="max-w-2xl text-base leading-relaxed text-ink-soft">
               The shape follows from the corpus rather than from a target. Submissions were degraded
               deterministically — sections dropped, quantification thinned, length cut, deadlines missed — and the
               rubric priced each degradation the same way every time.
@@ -107,8 +107,8 @@ export default function Cohort() {
               {cohort.borderlineBy.map((row) => (
                 <li key={row.name} className="px-5 py-3">
                   <div className="flex items-baseline justify-between gap-3">
-                    <span className="text-[0.8125rem] font-medium tracking-tight text-ink">{row.name}</span>
-                    <span className="shrink-0 font-mono text-[0.8125rem] text-ink-soft tabular-nums">
+                    <span className="text-base font-medium tracking-tight text-ink">{row.name}</span>
+                    <span className="shrink-0 font-mono text-base text-ink-soft tabular-nums">
                       {Math.round(row.share * 100)}%
                     </span>
                   </div>
@@ -119,7 +119,7 @@ export default function Cohort() {
               ))}
             </ul>
             <div className="border-t border-line px-5 py-4">
-              <p className="text-[0.8125rem] leading-relaxed text-ink-soft">
+              <p className="text-base leading-relaxed text-ink-soft">
                 Concentration is the useful signal. A criterion that repeatedly lands on a boundary points at vague
                 anchor language rather than at model quality, and the rubric owner is the one who can fix it.
               </p>

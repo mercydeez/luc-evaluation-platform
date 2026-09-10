@@ -52,7 +52,7 @@ function BackLink() {
   return (
     <Link
       to="/review"
-      className="mb-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-ink-soft no-underline hover:text-ink"
+      className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft no-underline hover:text-ink"
     >
       <ArrowLeft className="size-3.5" strokeWidth={2} />
       Review queue
@@ -166,8 +166,8 @@ function Decision({
                 return (
                   <div key={criterion.id} className="flex items-center gap-3 px-5 py-2.5">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[0.8125rem] font-medium tracking-tight text-ink">{criterion.name}</p>
-                      <p className="text-[0.6875rem] text-ink-faint">
+                      <p className="truncate text-sm font-medium tracking-tight text-ink">{criterion.name}</p>
+                      <p className="text-2xs text-ink-faint">
                         weight {criterion.weight} · proposed {criterion.score}
                       </p>
                     </div>
@@ -181,7 +181,7 @@ function Decision({
                       />
                       <span
                         className={clsx(
-                          'w-8 text-center font-mono text-[0.8125rem] tabular-nums',
+                          'w-10 text-center font-mono text-sm tabular-nums',
                           delta === 0 ? 'text-ink' : delta > 0 ? 'text-verified-ink' : 'text-hold-ink',
                         )}
                       >
@@ -203,7 +203,7 @@ function Decision({
             <div className="flex items-center justify-between gap-4 border-y border-line bg-paper px-5 py-3.5">
               <div>
                 <p className="label">Proposed</p>
-                <p className="mt-1 font-mono text-[0.9375rem] text-ink-soft tabular-nums">
+                <p className="mt-1 font-mono text-base text-ink-soft tabular-nums">
                   {verdict.total} · {verdict.letter}
                 </p>
               </div>
@@ -214,7 +214,7 @@ function Decision({
                 <p className="label">Published</p>
                 <p
                   className={clsx(
-                    'mt-1 text-[1.25rem] leading-none font-medium tracking-tight tabular-nums',
+                    'mt-1 text-2xl leading-none font-medium tracking-tight tabular-nums',
                     changed ? 'text-verified-ink' : 'text-ink',
                   )}
                 >
@@ -236,7 +236,7 @@ function Decision({
                         type="button"
                         onClick={() => setReason(preset)}
                         className={clsx(
-                          'rounded-full border px-2.5 py-1 text-left text-[0.6875rem] leading-snug transition-colors',
+                          'rounded-full border px-2.5 py-1 text-left text-2xs leading-snug transition-colors',
                           reason === preset
                             ? 'border-ink bg-ink text-surface'
                             : 'border-line text-ink-soft hover:border-line-strong hover:text-ink',
@@ -252,7 +252,7 @@ function Decision({
                     onChange={(e) => setReason(e.target.value)}
                     rows={3}
                     placeholder="What the model got wrong, in the words a student would need to read."
-                    className="mt-2 w-full resize-y rounded-card border border-line bg-paper px-3 py-2.5 text-[0.8125rem] leading-relaxed text-ink outline-none placeholder:text-ink-faint focus:border-line-strong"
+                    className="mt-2 w-full resize-y rounded-card border border-line bg-paper px-3 py-2.5 text-base leading-relaxed text-ink outline-none placeholder:text-ink-faint focus:border-line-strong"
                   />
                 </div>
               )}
@@ -262,7 +262,7 @@ function Decision({
                 {changed ? 'Override and release' : released ? 'Release again' : 'Release unchanged'}
               </Button>
 
-              <p className="text-[0.75rem] leading-relaxed text-ink-faint">
+              <p className="text-xs leading-relaxed text-ink-faint">
                 {changed
                   ? 'The reason is written to the student feedback, the audit log and the rubric drift report. The original AI grade stays in the record.'
                   : 'Releasing writes a new version with your identity against it. It does not alter the proposed grade.'}
@@ -279,7 +279,7 @@ function Decision({
                 {versions.map((version) => (
                   <li key={`${version.v}-${version.at}`} className="px-5 py-3">
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-mono text-[0.75rem] text-ink-faint">v{version.v}</span>
+                      <span className="font-mono text-xs text-ink-faint">v{version.v}</span>
                       <span className="font-medium text-ink tabular-nums">
                         {version.total} · {version.letter}
                       </span>
@@ -290,11 +290,11 @@ function Decision({
                       </Badge>
                       {version.released && <Badge tone="verified">released</Badge>}
                     </div>
-                    <p className="mt-1.5 text-[0.75rem] text-ink-faint">
+                    <p className="mt-1.5 text-xs text-ink-faint">
                       {version.actor} · {new Date(version.at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}
                     </p>
                     {version.reason && (
-                      <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-soft">{version.reason}</p>
+                      <p className="mt-1.5 text-base leading-relaxed text-ink-soft">{version.reason}</p>
                     )}
                   </li>
                 ))}
@@ -342,7 +342,7 @@ function HighlightedText({ verdict }: { verdict: Verdict }) {
   }, [verdict])
 
   return (
-    <div className="max-w-[68ch] text-[0.875rem] leading-[1.75] whitespace-pre-wrap text-ink-soft">
+    <div className="max-w-[68ch] text-sm leading-[1.75] whitespace-pre-wrap text-ink-soft">
       {segments.map((segment, i) =>
         segment.criterion ? (
           <mark

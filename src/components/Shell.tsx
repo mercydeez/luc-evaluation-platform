@@ -62,7 +62,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         />
       </div>
 
-      <main id="main" className="mx-auto max-w-[84rem] px-4 pt-6 pb-8 sm:px-6 lg:px-7">
+      <main id="main" className="mx-auto max-w-[84rem] px-3 pt-8 pb-8 sm:px-5">
         {children}
       </main>
 
@@ -83,16 +83,16 @@ function Header({ onTheme, onTour }: { onTheme: () => void; onTour: () => void }
       <NavLink to="/" className="flex min-w-0 items-center gap-2.5 no-underline" aria-label="Invariant — home">
         <Mark className="size-6 shrink-0" color={theme === 'dark' ? '#3FBF6E' : '#259D4A'} />
         <span className="min-w-0 leading-none">
-          <span className="block font-mono text-[0.8125rem] font-medium tracking-[0.1em] text-ink uppercase">
+          <span className="block font-mono text-sm font-medium tracking-[0.1em] text-ink uppercase">
             Invariant
           </span>
-          <span className="mt-1 hidden text-[0.625rem] tracking-[0.14em] text-ink-faint uppercase sm:block">
+          <span className="mt-1 hidden text-2xs tracking-[0.14em] text-ink-faint uppercase sm:block">
             Learners Education
           </span>
         </span>
       </NavLink>
 
-      <span className="mx-auto hidden rounded-full border border-review-line bg-review-bg px-2.5 py-1 font-mono text-[0.625rem] tracking-[0.08em] text-review-ink uppercase md:inline">
+      <span className="mx-auto hidden rounded-full border border-review-line bg-review-bg px-2.5 py-1 font-mono text-2xs tracking-[0.08em] text-review-ink uppercase md:inline">
         Prototype — synthetic data
       </span>
 
@@ -173,11 +173,11 @@ function StepBar({ current }: { current?: number }) {
               data-active={active}
               aria-current={active ? 'step' : undefined}
               className={clsx(
-                'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] tracking-tight whitespace-nowrap no-underline transition-colors duration-150',
+                'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-sm tracking-tight whitespace-nowrap no-underline transition-colors duration-150',
                 active ? 'bg-ink text-surface' : 'text-ink-soft hover:bg-paper hover:text-ink',
               )}
             >
-              <span className={clsx('font-mono text-[0.6875rem]', active ? 'text-surface/70' : 'text-ink-faint')}>
+              <span className={clsx('font-mono text-2xs', active ? 'text-surface/70' : 'text-ink-faint')}>
                 {item.n}
               </span>
               {item.label}
@@ -191,7 +191,9 @@ function StepBar({ current }: { current?: number }) {
 
 function StepFooter({ prev, next }: ReturnType<typeof neighbours>) {
   return (
-    <nav aria-label="Walkthrough steps" className="mx-auto grid max-w-[84rem] gap-2 px-4 pb-10 sm:grid-cols-2 sm:px-6 lg:px-7">
+    <nav aria-label="Walkthrough steps" // Bottom padding clears the floating launcher, so the last thing on a page is
+      // never sitting underneath it.
+      className="mx-auto grid max-w-[84rem] gap-2 px-3 pb-28 sm:grid-cols-2 sm:px-5">
       {prev ? <StepLink step={prev} direction="prev" /> : <span className="hidden sm:block" />}
       {next && <StepLink step={next} direction="next" />}
     </nav>
@@ -219,7 +221,7 @@ function StepLink({ step, direction }: { step: Step; direction: 'prev' | 'next' 
         <span className="label block">
           {isNext ? 'Next' : 'Back'} · step {step.n} of {STEPS.length}
         </span>
-        <span className="mt-1 block truncate text-[0.9375rem] font-medium tracking-tight text-ink">{step.title}</span>
+        <span className="mt-1 block truncate text-base font-medium tracking-tight text-ink">{step.title}</span>
       </span>
     </NavLink>
   )

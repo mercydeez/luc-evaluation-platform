@@ -54,44 +54,44 @@ export default function Review() {
                         {verdict ? (
                           <Link
                             to={`/review/${submission.id}`}
-                            className="text-[0.875rem] font-medium tracking-tight text-ink no-underline hover:underline"
+                            className="text-sm font-medium tracking-tight text-ink no-underline hover:underline"
                           >
                             {submission.student}
                           </Link>
                         ) : (
-                          <span className="text-[0.875rem] font-medium tracking-tight text-ink-soft">
+                          <span className="text-sm font-medium tracking-tight text-ink-soft">
                             {submission.student}
                           </span>
                         )}
                         <div className="mt-0.5 flex flex-wrap items-center gap-2">
-                          <span className="text-[0.75rem] text-ink-faint">{submission.studentId}</span>
+                          <span className="text-xs text-ink-faint">{submission.studentId}</span>
                           {verdict && <KeyRef id={verdict.keyId} />}
                         </div>
                       </td>
                       <td className="px-3 py-3 whitespace-nowrap">
                         {standing ? (
                           <>
-                            <span className="text-[0.9375rem] font-medium text-ink tabular-nums">{standing.total}</span>
-                            <span className="ml-1.5 text-[0.75rem] text-ink-faint">{standing.letter}</span>
+                            <span className="text-base font-medium text-ink tabular-nums">{standing.total}</span>
+                            <span className="ml-1.5 text-xs text-ink-faint">{standing.letter}</span>
                           </>
                         ) : (
-                          <span className="text-[0.8125rem] text-ink-faint">not graded</span>
+                          <span className="text-sm text-ink-faint">not graded</span>
                         )}
                       </td>
                       <td className="px-3 py-3">
                         {verdict ? (
                           <span
-                            className={`font-mono text-[0.8125rem] tabular-nums ${
+                            className={`font-mono text-sm tabular-nums ${
                               verdict.confidence < REVIEW_THRESHOLD ? 'text-review-ink' : 'text-ink-soft'
                             }`}
                           >
                             {verdict.confidence.toFixed(2)}
                           </span>
                         ) : (
-                          <span className="text-[0.8125rem] text-ink-faint">—</span>
+                          <span className="text-sm text-ink-faint">—</span>
                         )}
                       </td>
-                      <td className="px-3 py-3 font-mono text-[0.8125rem] text-ink-soft tabular-nums">
+                      <td className="px-3 py-3 font-mono text-sm text-ink-soft tabular-nums">
                         {versions.length || '—'}
                       </td>
                       <td className="px-5 py-3">

@@ -34,7 +34,7 @@ export function PipelineView({ stages, className }: { stages: Stage[]; className
 
   if (stages.length === 0) {
     return (
-      <div className={clsx('px-5 py-8 text-center text-[0.8125rem] text-ink-faint', className)}>
+      <div className={clsx('px-5 py-8 text-center text-sm text-ink-faint', className)}>
         Eleven stages. Nothing has run yet.
       </div>
     )
@@ -58,7 +58,7 @@ export function PipelineView({ stages, className }: { stages: Stage[]; className
             >
               <span
                 className={clsx(
-                  'mt-0.5 grid size-5 shrink-0 place-items-center rounded-full border text-[0.625rem] font-medium',
+                  'mt-0.5 grid size-5 shrink-0 place-items-center rounded-full border text-2xs font-medium',
                   cls.dot,
                 )}
                 style={stage.status === 'running' ? { animation: 'pulse-run 1.1s ease-in-out infinite' } : undefined}
@@ -70,7 +70,7 @@ export function PipelineView({ stages, className }: { stages: Stage[]; className
                 <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                   <span
                     className={clsx(
-                      'text-[0.8125rem] font-medium tracking-tight',
+                      'text-sm font-medium tracking-tight',
                       cls.text,
                       dim && 'line-through decoration-line-strong',
                     )}
@@ -78,14 +78,14 @@ export function PipelineView({ stages, className }: { stages: Stage[]; className
                     {stage.name}
                   </span>
                   {stage.status === 'running' && (
-                    <span className="text-[0.75rem] text-ink-faint">running…</span>
+                    <span className="text-xs text-ink-faint">running…</span>
                   )}
                   {stage.ms > 0 && (
-                    <span className="font-mono text-[0.6875rem] text-ink-faint tabular-nums">{stage.ms}ms</span>
+                    <span className="font-mono text-2xs text-ink-faint tabular-nums">{stage.ms}ms</span>
                   )}
                 </span>
                 {stage.detail && (
-                  <span className={clsx('mt-0.5 block truncate text-[0.75rem]', cls.meta)}>{stage.detail}</span>
+                  <span className={clsx('mt-0.5 block truncate text-xs', cls.meta)}>{stage.detail}</span>
                 )}
               </span>
 
@@ -103,7 +103,7 @@ export function PipelineView({ stages, className }: { stages: Stage[]; className
                 style={{ animation: 'stage-in 200ms var(--ease-out-quint)' }}
               >
                 <p className="label">Why this stage exists</p>
-                <p className="mt-1.5 max-w-2xl text-[0.8125rem] leading-relaxed text-ink-soft">{stage.why}</p>
+                <p className="mt-1.5 max-w-2xl text-base leading-relaxed text-ink-soft">{stage.why}</p>
               </div>
             )}
           </li>

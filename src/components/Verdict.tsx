@@ -14,10 +14,10 @@ export function VerdictHeader({ verdict }: { verdict: Verdict }) {
       <div className="flex flex-wrap items-end gap-x-8 gap-y-4">
         <div>
           <div className="flex items-baseline gap-2">
-            <span className="text-[2.75rem] leading-none font-medium tracking-[-0.04em] text-ink tabular-nums">
+            <span className="text-4xl leading-none font-medium tracking-[-0.04em] text-ink tabular-nums">
               {verdict.total}
             </span>
-            <span className="text-[1.125rem] leading-none font-medium tracking-tight text-ink-soft">
+            <span className="text-lg leading-none font-medium tracking-tight text-ink-soft">
               / 100 · {verdict.letter}
             </span>
           </div>
@@ -28,7 +28,7 @@ export function VerdictHeader({ verdict }: { verdict: Verdict }) {
           <div className="flex items-baseline gap-2">
             <span
               className={clsx(
-                'text-[1.5rem] leading-none font-medium tracking-[-0.03em] tabular-nums',
+                'text-2xl leading-none font-medium tracking-[-0.03em] tabular-nums',
                 needsReview ? 'text-review-ink' : 'text-ink',
               )}
             >
@@ -36,7 +36,7 @@ export function VerdictHeader({ verdict }: { verdict: Verdict }) {
             </span>
           </div>
           <p className="label mt-2.5">Confidence</p>
-          <p className="mt-1 text-[0.75rem] leading-snug text-ink-soft">
+          <p className="mt-1 text-xs leading-snug text-ink-soft">
             {needsReview ? `Below ${REVIEW_THRESHOLD} — human decision required` : `Clears the ${REVIEW_THRESHOLD} release threshold`}
           </p>
         </div>
@@ -106,7 +106,7 @@ function CriterionRow({
       >
         <span className="min-w-0 flex-1">
           <span className="flex flex-wrap items-center gap-2">
-            <span className="text-[0.875rem] font-medium tracking-tight text-ink">{criterion.name}</span>
+            <span className="text-base font-medium tracking-tight text-ink">{criterion.name}</span>
             <span className="chip">weight {criterion.weight}</span>
             {criterion.kind === 'mechanical' ? (
               <Badge tone="verified">
@@ -125,10 +125,10 @@ function CriterionRow({
         </span>
 
         <span className="shrink-0 text-right">
-          <span className="block text-[1.125rem] leading-none font-medium tracking-tight text-ink tabular-nums">
+          <span className="block text-lg leading-none font-medium tracking-tight text-ink tabular-nums">
             {criterion.score}
           </span>
-          <span className="mt-1 block text-[0.6875rem] text-ink-faint">{criterion.band}</span>
+          <span className="mt-1 block text-2xs text-ink-faint">{criterion.band}</span>
         </span>
 
         <ChevronRight
@@ -143,7 +143,7 @@ function CriterionRow({
         >
           <div>
             <p className="label">Rubric anchor applied</p>
-            <p className="mt-1.5 max-w-2xl text-[0.8125rem] leading-relaxed text-ink-soft">{criterion.anchor}</p>
+            <p className="mt-1.5 max-w-2xl text-base leading-relaxed text-ink-soft">{criterion.anchor}</p>
           </div>
 
           <div>
@@ -151,17 +151,17 @@ function CriterionRow({
               {criterion.kind === 'mechanical' ? <Sigma className="size-3" /> : <Cpu className="size-3" />}
               {criterion.kind === 'mechanical' ? 'Calculation' : 'Reasoning'}
             </p>
-            <p className="mt-1.5 max-w-2xl text-[0.8125rem] leading-relaxed text-ink-soft">{criterion.reasoning}</p>
+            <p className="mt-1.5 max-w-2xl text-base leading-relaxed text-ink-soft">{criterion.reasoning}</p>
           </div>
 
           {criterion.lines && (
             <dl className="max-w-lg rounded-card border border-line bg-surface px-4 py-1">
               {criterion.lines.map((line, i) => (
                 <div key={i} className="flex items-baseline justify-between gap-4 border-b border-line py-2 last:border-b-0">
-                  <dt className="text-[0.8125rem] text-ink-soft">{line.label}</dt>
+                  <dt className="text-sm text-ink-soft">{line.label}</dt>
                   <dd
                     className={clsx(
-                      'shrink-0 font-mono text-[0.8125rem] tabular-nums',
+                      'shrink-0 font-mono text-sm tabular-nums',
                       line.delta < 0 ? 'text-hold-ink' : 'text-ink',
                     )}
                   >
@@ -170,8 +170,8 @@ function CriterionRow({
                 </div>
               ))}
               <div className="flex items-baseline justify-between gap-4 border-t border-line-strong py-2.5">
-                <dt className="text-[0.8125rem] font-medium text-ink">Criterion score</dt>
-                <dd className="font-mono text-[0.8125rem] font-medium text-ink tabular-nums">{criterion.score}</dd>
+                <dt className="text-sm font-medium text-ink">Criterion score</dt>
+                <dd className="font-mono text-sm font-medium text-ink tabular-nums">{criterion.score}</dd>
               </div>
             </dl>
           )}
@@ -186,7 +186,7 @@ function CriterionRow({
                 {criterion.evidence.map((span, i) => (
                   <blockquote
                     key={i}
-                    className="rounded-card border border-line bg-surface px-4 py-3 text-[0.8125rem] leading-relaxed text-ink"
+                    className="rounded-card border border-line bg-surface px-4 py-3 text-base leading-relaxed text-ink"
                   >
                     <span className="text-ink-faint">“</span>
                     {span}
@@ -194,7 +194,7 @@ function CriterionRow({
                   </blockquote>
                 ))}
               </div>
-              <p className="mt-2 text-[0.75rem] text-ink-faint">
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-faint">
                 Each span was checked against the graded text before this verdict was released for review. Evidence
                 that does not appear verbatim in the submission is rejected by the validation layer.
               </p>

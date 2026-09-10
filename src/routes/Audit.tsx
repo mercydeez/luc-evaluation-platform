@@ -62,15 +62,15 @@ export default function Audit() {
               <tbody className="divide-y divide-line">
                 {[...rows].reverse().map((entry) => (
                   <tr key={entry.id} className="transition-colors hover:bg-paper">
-                    <td className="px-5 py-3 align-top font-mono text-[0.75rem] whitespace-nowrap text-ink-faint tabular-nums">
+                    <td className="px-5 py-3 align-top font-mono text-xs whitespace-nowrap text-ink-faint tabular-nums">
                       {new Date(entry.at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                     </td>
-                    <td className="px-3 py-3 align-top text-[0.8125rem] whitespace-nowrap text-ink-soft">{entry.actor}</td>
+                    <td className="px-3 py-3 align-top text-sm whitespace-nowrap text-ink-soft">{entry.actor}</td>
                     <td className="px-3 py-3 align-top">
                       <Badge tone={EVENT_TONE[entry.event] ?? 'neutral'}>{entry.event}</Badge>
                     </td>
                     <td className="px-5 py-3 align-top">
-                      <p className="max-w-xl text-[0.8125rem] leading-relaxed text-ink">{entry.detail}</p>
+                      <p className="max-w-xl text-base leading-relaxed text-ink">{entry.detail}</p>
                       {entry.keyId && (
                         <div className="mt-1.5">
                           <KeyRef id={entry.keyId} />
@@ -114,7 +114,7 @@ function FilterChip({
       type="button"
       onClick={onClick}
       className={clsx(
-        'rounded-full border px-3 py-1.5 font-mono text-[0.6875rem] transition-colors',
+        'rounded-full border px-3 py-1.5 font-mono text-2xs transition-colors',
         active ? 'border-ink bg-ink text-surface' : 'border-line text-ink-soft hover:border-line-strong hover:text-ink',
       )}
     >

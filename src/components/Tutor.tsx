@@ -88,11 +88,14 @@ export function Tutor({ state }: { state: TutorState }) {
         <button
           type="button"
           onClick={state.open}
-          className="fixed right-4 bottom-4 z-30 flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2.5 shadow-pop transition-colors hover:border-line-strong sm:right-6 sm:bottom-6"
+          // Bottom-left, not bottom-right: the review screen keeps its primary action in
+          // the bottom-right corner, and a floating launcher must never sit on top of the
+          // one button the screen exists for.
+          className="fixed bottom-4 left-4 z-30 flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2.5 shadow-pop transition-colors hover:border-line-strong sm:bottom-6 sm:left-6"
         >
           <MessageSquareText className="size-4 text-verified" strokeWidth={1.75} />
-          <span className="text-[0.8125rem] font-medium tracking-tight text-ink">Ask the record</span>
-          <kbd className="hidden rounded border border-line bg-paper px-1.5 py-0.5 font-mono text-[0.625rem] text-ink-faint sm:inline">
+          <span className="text-sm font-medium tracking-tight text-ink">Ask the record</span>
+          <kbd className="hidden rounded border border-line bg-paper px-1.5 py-0.5 font-mono text-2xs text-ink-faint sm:inline">
             /
           </kbd>
         </button>
@@ -113,8 +116,8 @@ export function Tutor({ state }: { state: TutorState }) {
           >
             <header className="flex items-start gap-3 border-b border-line px-5 py-4">
               <div className="min-w-0 flex-1">
-                <h2 className="text-[0.9375rem] font-semibold tracking-tight text-ink">Ask the record</h2>
-                <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">
+                <h2 className="text-base font-semibold tracking-tight text-ink">Ask the record</h2>
+                <p className="mt-1 text-base leading-snug text-ink-soft">
                   Answers come from stored evaluations, evidence and decisions. Every one names its source.
                 </p>
               </div>
@@ -131,7 +134,7 @@ export function Tutor({ state }: { state: TutorState }) {
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-5 py-4">
               <div className="rounded-card border border-line bg-paper px-4 py-3.5">
                 <p className="label">How this works</p>
-                <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-soft">
+                <p className="mt-1.5 text-base leading-relaxed text-ink-soft">
                   There is no model and no network in this path. The{' '}
                   <strong className="font-medium text-ink">{index.docs.length} documents</strong> behind these answers
                   are built from the record itself and ranked locally. When nothing in the record covers a question,
@@ -152,7 +155,7 @@ export function Tutor({ state }: { state: TutorState }) {
                         key={suggestion}
                         type="button"
                         onClick={() => ask(suggestion)}
-                        className="block w-full rounded-card border border-line bg-surface px-3.5 py-2.5 text-left text-[0.8125rem] leading-snug text-ink-soft transition-colors hover:border-line-strong hover:bg-paper hover:text-ink"
+                        className="block w-full rounded-card border border-line bg-surface px-3.5 py-2.5 text-left text-sm leading-snug text-ink-soft transition-colors hover:border-line-strong hover:bg-paper hover:text-ink"
                       >
                         {suggestion}
                       </button>
@@ -177,7 +180,7 @@ export function Tutor({ state }: { state: TutorState }) {
                 onChange={(e) => setDraft(e.target.value)}
                 placeholder="Ask about a grade, a criterion or a decision"
                 aria-label="Ask about the record"
-                className="min-w-0 flex-1 rounded-full border border-line bg-paper px-4 py-2 text-[0.8125rem] text-ink outline-none placeholder:text-ink-faint focus:border-line-strong"
+                className="min-w-0 flex-1 rounded-full border border-line bg-paper px-4 py-2 text-sm text-ink outline-none placeholder:text-ink-faint focus:border-line-strong"
               />
               <button
                 type="submit"
@@ -201,7 +204,7 @@ function Exchange({ exchange, onFollow }: { exchange: Exchange; onFollow: () => 
 
   return (
     <div style={{ animation: 'stage-in 240ms var(--ease-out-quint)' }}>
-      <p className="text-[0.8125rem] leading-snug font-medium text-ink">{question}</p>
+      <p className="text-sm leading-snug font-medium text-ink">{question}</p>
 
       <div
         className={clsx(
@@ -209,7 +212,7 @@ function Exchange({ exchange, onFollow }: { exchange: Exchange; onFollow: () => 
           unknown ? 'border-review-line bg-review-bg' : 'border-line bg-paper',
         )}
       >
-        <p className={clsx('text-[0.8125rem] leading-relaxed', unknown ? 'text-review-ink' : 'text-ink-soft')}>
+        <p className={clsx('text-base leading-relaxed', unknown ? 'text-review-ink' : 'text-ink-soft')}>
           {result.text}
         </p>
 
@@ -225,15 +228,15 @@ function Exchange({ exchange, onFollow }: { exchange: Exchange; onFollow: () => 
                       onClick={onFollow}
                       className="group flex items-baseline gap-2 no-underline"
                     >
-                      <span className="text-[0.8125rem] font-medium text-ink group-hover:underline">
+                      <span className="text-sm font-medium text-ink group-hover:underline">
                         {citation.label}
                       </span>
-                      <span className="truncate font-mono text-[0.6875rem] text-ink-faint">{citation.detail}</span>
+                      <span className="truncate font-mono text-2xs text-ink-faint">{citation.detail}</span>
                     </Link>
                   ) : (
                     <span className="flex items-baseline gap-2">
-                      <span className="text-[0.8125rem] font-medium text-ink">{citation.label}</span>
-                      <span className="truncate font-mono text-[0.6875rem] text-ink-faint">{citation.detail}</span>
+                      <span className="text-sm font-medium text-ink">{citation.label}</span>
+                      <span className="truncate font-mono text-2xs text-ink-faint">{citation.detail}</span>
                     </span>
                   )}
                 </li>
@@ -247,7 +250,7 @@ function Exchange({ exchange, onFollow }: { exchange: Exchange; onFollow: () => 
         <Badge tone={unknown ? 'review' : 'verified'}>
           {unknown ? 'Not in the record' : `Retrieved locally in ${ms}ms`}
         </Badge>
-        <span className="text-[0.6875rem] text-ink-faint">0 model calls · 0 network requests</span>
+        <span className="text-2xs text-ink-faint">0 model calls · 0 network requests</span>
       </div>
     </div>
   )
