@@ -15,9 +15,9 @@ const ICON: Record<StageStatus, typeof Check | null> = {
 function statusClasses(status: StageStatus) {
   switch (status) {
     case 'ok':
-      return { dot: 'border-verified bg-verified text-white', text: 'text-ink', meta: 'text-ink-soft' }
+      return { dot: 'border-verified bg-verified text-surface', text: 'text-ink', meta: 'text-ink-soft' }
     case 'running':
-      return { dot: 'border-ink bg-ink text-white', text: 'text-ink', meta: 'text-ink-soft' }
+      return { dot: 'border-ink bg-ink text-surface', text: 'text-ink', meta: 'text-ink-soft' }
     case 'held':
       return { dot: 'border-review bg-review-bg text-review-ink', text: 'text-review-ink', meta: 'text-review-ink' }
     case 'failed':

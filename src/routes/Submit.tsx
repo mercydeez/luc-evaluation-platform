@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { EvaluationKeyChip } from '../components/EvaluationKeyChip'
 import { PipelineView } from '../components/PipelineView'
 import { CriteriaList, OutcomeNotice, VerdictHeader } from '../components/Verdict'
-import { Badge, Button, Card, CardHead, Note, PageHead } from '../components/ui'
+import { Badge, Button, Card, CardHead, Note, StepHead } from '../components/ui'
 import { COURSE, SAMPLE_NOTES, SUBMISSIONS } from '../data/samples'
 import { contentHash } from '../engine/hash'
 import { buildKey, DEFAULT_PINS } from '../engine/key'
@@ -39,13 +39,12 @@ export default function Submit() {
 
   return (
     <>
-      <PageHead
-        title="Submit & grade"
+      <StepHead
         meta={`${COURSE.code} · ${COURSE.assignment} · rubric ${pins.rubricVersion.replace('rbr_', '')} · due ${COURSE.deadline}`}
       >
         Pick a submission, change anything you like about it or about the pins, and watch what the evaluation key
         does. The key is what the grade is stored against, so two runs that share one cannot disagree.
-      </PageHead>
+      </StepHead>
 
       <div className="grid gap-5 xl:grid-cols-[23rem_1fr]">
         <div className="min-w-0 space-y-5">

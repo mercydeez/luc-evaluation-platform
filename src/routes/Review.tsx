@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { KeyRef } from '../components/EvaluationKeyChip'
-import { Badge, Card, CardHead, Empty, Note, PageHead } from '../components/ui'
+import { Badge, Card, CardHead, Empty, Note, StepHead } from '../components/ui'
 import { SUBMISSIONS } from '../data/samples'
 import { REVIEW_THRESHOLD } from '../engine/pipeline'
 import { useStore } from '../engine/store'
@@ -22,13 +22,12 @@ export default function Review() {
 
   return (
     <>
-      <PageHead
-        title="Review queue"
+      <StepHead
         meta={`${rows.filter((r) => r.verdict && !r.released).length} awaiting a decision · ${rows.filter((r) => !r.verdict).length} held before grading`}
       >
         The model proposes a grade. Release is a separate state, and it belongs to the course owner. Nothing on this
         list has reached a student.
-      </PageHead>
+      </StepHead>
 
       <Card>
         <CardHead title="This assignment" meta="Every row was produced by the pipeline running in this browser." />

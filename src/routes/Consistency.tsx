@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { CircleAlert, Lock, Play, Unlock } from 'lucide-react'
 import { useState } from 'react'
 import { KeyRef } from '../components/EvaluationKeyChip'
-import { Badge, Button, Card, CardHead, Empty, Note, PageHead } from '../components/ui'
+import { Badge, Button, Card, CardHead, Empty, Note, StepHead } from '../components/ui'
 import { SUBMISSIONS } from '../data/samples'
 import { keySegments, DEFAULT_PINS } from '../engine/key'
 import { evaluate } from '../engine/pipeline'
@@ -68,14 +68,11 @@ export default function Consistency() {
 
   return (
     <>
-      <PageHead
-        title="Consistency lab"
-        meta="The reported defect, reproduced on demand, and the fix running beside it"
-      >
+      <StepHead meta={`${RUNS} runs each side · rubric ${DEFAULT_PINS.rubricVersion.replace('rbr_', '')} · prompt ${DEFAULT_PINS.promptVersion.replace('p_', 'p')} · model ${DEFAULT_PINS.modelVersion.replace('m_', '')}`}>
         A student uploaded the same assignment twice and was graded A, then B. Five things were free to move between
         those two runs. Below, the same submission is graded five times with decoding unpinned, then five times with
         every input pinned into an evaluation key.
-      </PageHead>
+      </StepHead>
 
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <span className="label">Subject</span>

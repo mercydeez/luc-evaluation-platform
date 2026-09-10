@@ -1,247 +1,226 @@
 import clsx from 'clsx'
-import {
-  BookOpenCheck,
-  FlaskConical,
-  GraduationCap,
-  Info,
-  LayoutDashboard,
-  Menu,
-  ScrollText,
-  UploadCloud,
-  X,
-} from 'lucide-react'
-import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import { COURSE } from '../data/samples'
+import { ArrowLeft, ArrowRight, CircleHelp, Moon, RotateCcw, Sun } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { store, useStore } from '../engine/store'
+import { neighbours, STEPS, stepFor, type Step } from '../steps'
+import { useTheme } from '../theme'
 import { Mark } from './Mark'
-import { Badge, Button } from './ui'
-
-const NAV = [
-  {
-    group: 'Evaluation',
-    items: [
-      { to: '/', label: 'Overview', icon: LayoutDashboard, end: true },
-      { to: '/submit', label: 'Submit & grade', icon: UploadCloud },
-      { to: '/consistency', label: 'Consistency lab', icon: FlaskConical },
-    ],
-  },
-  {
-    group: 'Decisions',
-    items: [
-      { to: '/review', label: 'Review queue', icon: BookOpenCheck },
-      { to: '/student', label: 'Student view', icon: GraduationCap },
-    ],
-  },
-  {
-    group: 'Record',
-    items: [
-      { to: '/audit', label: 'Audit log', icon: ScrollText },
-      { to: '/case', label: 'Product case', icon: Info },
-    ],
-  },
-]
+import { Tour, useTour } from './Tour'
+import { Tutor, useTutor } from './Tutor'
 
 export function Shell({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const step = stepFor(pathname)
+  const { prev, next } = neighbours(step)
+  const [, toggleTheme] = useTheme()
+  const tutor = useTutor()
+  const tour = useTour()
+
+  // The walkthrough is nine steps, so it should also be two arrow keys.
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      // A keydown can be dispatched at the document or the window, neither of
+      // which is an Element, so the typing guard has to check before it asks.
+      const target = event.target
+      if (target instanceof Element && target.closest('input, textarea, select, [contenteditable]')) return
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+
+      if (event.key === 'ArrowLeft' && prev) navigate(prev.to)
+      else if (event.key === 'ArrowRight' && next) navigate(next.to)
+      else if (event.key === 't') toggleTheme()
+      else if (event.key === '?') tour.toggle()
+      else if (event.key === '/') {
+        event.preventDefault()
+        tutor.open()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [prev, next, navigate, toggleTheme, tour, tutor])
+
   return (
-    <div className="min-h-dvh lg:grid lg:grid-cols-[15rem_1fr]">
+    <div className="min-h-dvh">
       <a
         href="#main"
-        className="sr-only rounded-full bg-ink px-4 py-2 text-sm text-white focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
+        className="sr-only rounded-full bg-ink px-4 py-2 text-sm text-surface focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
       >
         Skip to content
       </a>
 
-      {/* Rail */}
-      <div
-        className={clsx(
-          'fixed inset-y-0 left-0 z-40 flex w-60 flex-col bg-rail transition-transform duration-300 lg:sticky lg:top-0 lg:h-dvh lg:translate-x-0',
-          open ? 'translate-x-0 shadow-rail' : '-translate-x-full',
-        )}
-      >
-        <div className="flex items-center gap-2.5 px-5 pt-5 pb-4">
-          <Mark className="size-7 shrink-0" color="#3FBF6E" />
-          <div className="min-w-0 leading-tight">
-            <div className="truncate text-[0.8125rem] font-semibold tracking-tight text-white">Learners Education</div>
-            <div className="truncate text-[0.6875rem] text-rail-muted">Invariant · evaluation</div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="ml-auto rounded-full p-1.5 text-rail-muted hover:bg-white/10 hover:text-white lg:hidden"
-            aria-label="Close navigation"
-          >
-            <X className="size-4" />
-          </button>
+      {/* The chrome floats, so the strip behind it has to carry the ground colour:
+          without it, page content scrolls through the gaps between the pills. */}
+      <div className="sticky top-0 z-30 bg-paper px-3 pt-3 pb-2 sm:px-5 sm:pt-4">
+        <div className="mx-auto max-w-[84rem] space-y-2">
+          <Header onTheme={toggleTheme} onTour={tour.toggle} />
+          <StepBar current={step?.n} />
         </div>
-
-        <div className="mx-4 mb-4 rounded-card border border-rail-line bg-white/4 px-3 py-2.5">
-          <div className="font-mono text-[0.6875rem] text-rail-muted">{COURSE.code}</div>
-          <div className="mt-0.5 text-[0.8125rem] leading-tight font-medium text-rail-text">{COURSE.name}</div>
-          <div className="mt-1 text-[0.6875rem] text-rail-muted">
-            {COURSE.term} · {COURSE.enrolled} enrolled
-          </div>
-        </div>
-
-        <nav className="flex-1 space-y-5 overflow-y-auto px-3 pb-4">
-          {NAV.map((section) => (
-            <div key={section.group}>
-              <div className="px-2.5 pb-1.5 text-[0.625rem] font-medium tracking-[0.08em] text-rail-muted uppercase">
-                {section.group}
-              </div>
-              <ul className="space-y-0.5">
-                {section.items.map(({ to, label, icon: Icon, end }) => (
-                  <li key={to}>
-                    <NavLink
-                      to={to}
-                      end={end}
-                      onClick={() => setOpen(false)}
-                      className={({ isActive }) =>
-                        clsx(
-                          'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[0.8125rem] font-medium tracking-tight no-underline transition-colors duration-150',
-                          isActive
-                            ? 'bg-white/12 text-white'
-                            : 'text-rail-muted hover:bg-white/6 hover:text-rail-text',
-                        )
-                      }
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <Icon
-                            className={clsx('size-4 shrink-0', isActive ? 'text-[#3FBF6E]' : '')}
-                            strokeWidth={1.75}
-                          />
-                          {label}
-                        </>
-                      )}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-
-        <RailFooter />
-      </div>
-
-      {open && (
-        <button
-          type="button"
-          aria-label="Close navigation"
-          className="fixed inset-0 z-30 bg-ink-deep/40 lg:hidden"
-          onClick={() => setOpen(false)}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-full h-6 bg-linear-to-b from-paper to-transparent"
         />
-      )}
-
-      <div className="flex min-w-0 flex-col">
-        <TopBar onMenu={() => setOpen(true)} />
-        <main id="main" className="flex-1 px-4 pt-5 pb-16 sm:px-6 lg:px-8">
-          {children}
-        </main>
       </div>
+
+      <main id="main" className="mx-auto max-w-[84rem] px-4 pt-6 pb-8 sm:px-6 lg:px-7">
+        {children}
+      </main>
+
+      {step && <StepFooter prev={prev} next={next} />}
+
+      <Tutor state={tutor} />
+      <Tour state={tour} />
     </div>
   )
 }
 
-function RailFooter() {
-  const record = useStore((s) => s.record)
+function Header({ onTheme, onTour }: { onTheme: () => void; onTour: () => void }) {
+  const [theme] = useTheme()
+  const versions = useStore((s) => s.record).length
 
   return (
-    <div className="border-t border-rail-line px-4 py-3.5">
-      <div className="flex items-center gap-2.5">
-        <div className="grid size-8 shrink-0 place-items-center rounded-full bg-[#3FBF6E]/18 text-[0.6875rem] font-semibold text-[#7DDCA1]">
-          AR
-        </div>
-        <div className="min-w-0 leading-tight">
-          <div className="truncate text-[0.8125rem] font-medium text-rail-text">Dr. Anita Rao</div>
-          <div className="truncate text-[0.6875rem] text-rail-muted">Faculty · course owner</div>
-        </div>
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          store.reset()
-          location.reload()
-        }}
-        className="mt-3 w-full rounded-full border border-rail-line px-3 py-1.5 text-[0.75rem] font-medium text-rail-muted transition-colors hover:border-[#3FBF6E]/50 hover:text-rail-text"
-      >
-        Reset demo · {record.length} versions
-      </button>
-    </div>
-  )
-}
+    <header className="flex items-center gap-3 rounded-full border border-line bg-surface/88 px-3 py-2 shadow-float backdrop-blur-xl sm:px-4 sm:py-2.5">
+      <NavLink to="/" className="flex min-w-0 items-center gap-2.5 no-underline" aria-label="Invariant — home">
+        <Mark className="size-6 shrink-0" color={theme === 'dark' ? '#3FBF6E' : '#259D4A'} />
+        <span className="min-w-0 leading-none">
+          <span className="block font-mono text-[0.8125rem] font-medium tracking-[0.1em] text-ink uppercase">
+            Invariant
+          </span>
+          <span className="mt-1 hidden text-[0.625rem] tracking-[0.14em] text-ink-faint uppercase sm:block">
+            Learners Education
+          </span>
+        </span>
+      </NavLink>
 
-const TITLES: Record<string, [string, string]> = {
-  '/': ['Evaluation', 'Overview'],
-  '/submit': ['Evaluation', 'Submit & grade'],
-  '/consistency': ['Evaluation', 'Consistency lab'],
-  '/review': ['Decisions', 'Review queue'],
-  '/student': ['Decisions', 'Student view'],
-  '/audit': ['Record', 'Audit log'],
-  '/case': ['Record', 'Product case'],
-}
+      <span className="mx-auto hidden rounded-full border border-review-line bg-review-bg px-2.5 py-1 font-mono text-[0.625rem] tracking-[0.08em] text-review-ink uppercase md:inline">
+        Prototype — synthetic data
+      </span>
 
-function TopBar({ onMenu }: { onMenu: () => void }) {
-  const { pathname } = useLocation()
-  const [note, setNote] = useState(false)
-  const [section, title] = TITLES[pathname] ?? (pathname.startsWith('/review') ? ['Decisions', 'Review'] : ['', ''])
-
-  return (
-    <header className="sticky top-0 z-20 border-b border-line bg-paper/85 backdrop-blur-md">
-      <div className="flex items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        <button
-          type="button"
-          onClick={onMenu}
-          className="-ml-1 rounded-full p-2 text-ink-soft hover:bg-ink/6 hover:text-ink lg:hidden"
-          aria-label="Open navigation"
+      <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0">
+        <IconButton
+          label={theme === 'dark' ? 'Switch to the light theme' : 'Switch to the dark theme'}
+          onClick={onTheme}
         >
-          <Menu className="size-4.5" />
-        </button>
-
-        <div className="min-w-0 text-[0.8125rem] tracking-tight">
-          <span className="text-ink-faint">{section}</span>
-          {title && (
-            <span className="mx-1.5 text-line-strong" aria-hidden="true">
-              /
-            </span>
+          {theme === 'dark' ? (
+            <Sun className="size-4" strokeWidth={1.75} />
+          ) : (
+            <Moon className="size-4" strokeWidth={1.75} />
           )}
-          <span className="font-medium text-ink">{title}</span>
-        </div>
-
-        <div className="relative ml-auto">
-          <button type="button" onClick={() => setNote((v) => !v)} aria-expanded={note} className="block">
-            <Badge tone="review" dot>
-              Demo build
-            </Badge>
-          </button>
-          {note && (
-            <div
-              className="absolute top-full right-0 z-30 mt-2 w-80 rounded-card border border-line bg-surface p-4 shadow-pop"
-              style={{ animation: 'stage-in 200ms var(--ease-out-quint)' }}
-            >
-              <h3 className="text-[0.8125rem] font-semibold tracking-tight text-ink">What is real here</h3>
-              <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-soft">
-                The hashing, the evaluation key, the rubric arithmetic, the verdict cache, the validation layer and
-                the append-only record all run for real, in this browser.
-              </p>
-              <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-soft">
-                Judgement comes from a <strong className="font-medium text-ink">deterministic stand-in</strong>, not a
-                language model, and every student name and mark on screen is synthetic.
-              </p>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="mt-3 -ml-1"
-                onClick={() => setNote(false)}
-              >
-                Close
-              </Button>
-            </div>
-          )}
-        </div>
+        </IconButton>
+        <IconButton
+          label={`Reset the demo — ${versions} versions recorded`}
+          onClick={() => {
+            store.reset()
+            location.reload()
+          }}
+        >
+          <RotateCcw className="size-4" strokeWidth={1.75} />
+        </IconButton>
+        <IconButton label="How to read this demo" onClick={onTour}>
+          <CircleHelp className="size-4" strokeWidth={1.75} />
+        </IconButton>
       </div>
     </header>
+  )
+}
+
+function IconButton({
+  label,
+  onClick,
+  children,
+}: {
+  label: string
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className="grid size-8 place-items-center rounded-full border border-line text-ink-soft transition-colors hover:border-line-strong hover:bg-paper hover:text-ink"
+    >
+      {children}
+    </button>
+  )
+}
+
+function StepBar({ current }: { current?: number }) {
+  const bar = useRef<HTMLDivElement>(null)
+
+  // Keep the active step in view on narrow screens, where nine will not fit.
+  useEffect(() => {
+    bar.current?.querySelector('[data-active="true"]')?.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'center',
+      block: 'nearest',
+    })
+  }, [current])
+
+  return (
+    <nav aria-label="Walkthrough" className="rounded-full border border-line bg-surface/88 shadow-float backdrop-blur-xl">
+      <div
+        ref={bar}
+        className="flex items-center gap-0.5 overflow-x-auto px-1.5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {STEPS.map((item) => {
+          const active = current === item.n
+          return (
+            <NavLink
+              key={item.n}
+              to={item.to}
+              data-active={active}
+              aria-current={active ? 'step' : undefined}
+              className={clsx(
+                'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] tracking-tight whitespace-nowrap no-underline transition-colors duration-150',
+                active ? 'bg-ink text-surface' : 'text-ink-soft hover:bg-paper hover:text-ink',
+              )}
+            >
+              <span className={clsx('font-mono text-[0.6875rem]', active ? 'text-surface/70' : 'text-ink-faint')}>
+                {item.n}
+              </span>
+              {item.label}
+            </NavLink>
+          )
+        })}
+      </div>
+    </nav>
+  )
+}
+
+function StepFooter({ prev, next }: ReturnType<typeof neighbours>) {
+  return (
+    <nav aria-label="Walkthrough steps" className="mx-auto grid max-w-[84rem] gap-2 px-4 pb-10 sm:grid-cols-2 sm:px-6 lg:px-7">
+      {prev ? <StepLink step={prev} direction="prev" /> : <span className="hidden sm:block" />}
+      {next && <StepLink step={next} direction="next" />}
+    </nav>
+  )
+}
+
+function StepLink({ step, direction }: { step: Step; direction: 'prev' | 'next' }) {
+  const isNext = direction === 'next'
+  return (
+    <NavLink
+      to={step.to}
+      className={clsx(
+        'group flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3.5 no-underline transition-colors hover:border-line-strong hover:bg-paper',
+        isNext && 'sm:col-start-2 sm:flex-row-reverse sm:text-right',
+      )}
+    >
+      <span className="grid size-7 shrink-0 place-items-center rounded-full border border-line text-ink-faint transition-colors group-hover:border-ink group-hover:text-ink">
+        {isNext ? (
+          <ArrowRight className="size-3.5" strokeWidth={2} />
+        ) : (
+          <ArrowLeft className="size-3.5" strokeWidth={2} />
+        )}
+      </span>
+      <span className="min-w-0">
+        <span className="label block">
+          {isNext ? 'Next' : 'Back'} · step {step.n} of {STEPS.length}
+        </span>
+        <span className="mt-1 block truncate text-[0.9375rem] font-medium tracking-tight text-ink">{step.title}</span>
+      </span>
+    </NavLink>
   )
 }

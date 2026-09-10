@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Badge, Card, CardHead, LinkButton, Note } from '../components/ui'
+import { Badge, Card, CardHead, LinkButton, Note, StepHead } from '../components/ui'
 
 const ROOT_CAUSES = [
   {
@@ -45,32 +45,37 @@ const PRINCIPLES = [
 export default function Case() {
   return (
     <div className="mx-auto max-w-4xl">
-      <header className="border-b border-line pb-8">
-        <img
-          src={`${import.meta.env.BASE_URL}luc-logo.svg`}
-          alt="Learners Education"
-          className="h-16 w-auto sm:h-20"
-          width={188}
-          height={60}
-        />
-        <h1 className="mt-8 max-w-[20ch] text-[2.25rem] leading-[1.05] font-medium tracking-[-0.04em] text-ink text-balance sm:text-[3rem]">
-          Grading at scale fails on consistency, not on accuracy.
-        </h1>
-        <p className="mt-5 max-w-[62ch] text-[1.0625rem] leading-relaxed text-ink-soft">
+      <StepHead
+        actions={
+          <>
+            <LinkButton to="/consistency" variant="primary">
+              See it reproduced
+              <ArrowRight className="size-4" strokeWidth={1.75} />
+            </LinkButton>
+            <LinkButton to="/overview" variant="secondary">
+              Open the platform
+            </LinkButton>
+          </>
+        }
+      />
+
+      <div className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4">
+        {/* The lockup is drawn in deep teal, so it keeps a light ground in both themes. */}
+        <span className="rounded-lg bg-white px-3 py-2">
+          <img
+            src={`${import.meta.env.BASE_URL}luc-logo.svg`}
+            alt="Learners Education"
+            className="h-8 w-auto"
+            width={100}
+            height={32}
+          />
+        </span>
+        <p className="min-w-0 flex-1 text-[0.8125rem] leading-relaxed text-ink-soft">
           An institution can already grade with a model. What it cannot yet do is defend a grade. Invariant treats a
-          grade as a decision record — reproducible, versioned and attributable — and every screen in this prototype
-          follows from that one commitment.
+          grade as a decision record — reproducible, versioned and attributable — and every screen that follows is a
+          consequence of that one commitment.
         </p>
-        <div className="mt-7 flex flex-wrap items-center gap-2">
-          <LinkButton to="/consistency" variant="primary">
-            See the defect reproduced
-            <ArrowRight className="size-4" strokeWidth={1.75} />
-          </LinkButton>
-          <LinkButton to="/submit" variant="secondary">
-            Grade something
-          </LinkButton>
-        </div>
-      </header>
+      </div>
 
       <Section title="The reported defect">
         <p>
@@ -128,7 +133,7 @@ export default function Case() {
             'Nothing is graded without a key. A grade that cannot be reproduced is not admitted into the record.',
           ].map((rule, i) => (
             <li key={rule} className="flex gap-3.5">
-              <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink text-[0.6875rem] font-medium text-white">
+              <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-ink text-[0.6875rem] font-medium text-surface">
                 {i + 1}
               </span>
               <span className="text-[0.9375rem] leading-relaxed text-ink-soft">{rule}</span>

@@ -40,7 +40,7 @@ export function EvaluationKeyChip({
               title={segment.label}
               className={clsx(
                 'group flex items-center gap-1.5 border-r border-line px-2.5 py-1.5 font-mono text-[0.75rem] tracking-tight transition-colors last:border-r-0',
-                isOpen && 'bg-ink text-white',
+                isOpen && 'bg-ink text-surface',
                 !isOpen && moved && 'bg-hold-bg text-hold-ink',
                 !isOpen && unpinned && !moved && 'bg-review-bg text-review-ink',
                 !isOpen && !moved && !unpinned && 'text-ink-soft hover:bg-paper hover:text-ink',
@@ -49,7 +49,7 @@ export function EvaluationKeyChip({
               <Icon
                 className={clsx(
                   'size-3 shrink-0',
-                  isOpen ? 'text-white/70' : unpinned ? 'text-review' : moved ? 'text-hold' : 'text-verified',
+                  isOpen ? 'text-surface/70' : unpinned ? 'text-review' : moved ? 'text-hold' : 'text-verified',
                 )}
                 strokeWidth={2.25}
               />

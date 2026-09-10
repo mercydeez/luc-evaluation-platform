@@ -1,7 +1,7 @@
 import { ArrowRight, FlaskConical, ShieldCheck, UploadCloud } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { KeyRef } from '../components/EvaluationKeyChip'
-import { Badge, Card, CardHead, Empty, LinkButton, Note, PageHead } from '../components/ui'
+import { Badge, Card, CardHead, Empty, LinkButton, Note, StepHead } from '../components/ui'
 import { COURSE, SUBMISSIONS } from '../data/samples'
 import { REVIEW_THRESHOLD } from '../engine/pipeline'
 import { useStore } from '../engine/store'
@@ -33,8 +33,7 @@ export default function Overview() {
 
   return (
     <>
-      <PageHead
-        title="Grading overview"
+      <StepHead
         meta={`${COURSE.code} · ${COURSE.name} · ${COURSE.term} · closes ${COURSE.deadline}`}
         actions={
           <>
@@ -137,8 +136,10 @@ function DeterminismPanel({
 }) {
   const clean = divergences === 0
 
+  // Deliberately dark in both themes: this is the one assertion on the page, and
+  // it should read as a statement rather than as another card.
   return (
-    <section className="overflow-hidden rounded-lg border border-ink-deep bg-rail text-rail-text shadow-rail">
+    <section className="overflow-hidden rounded-lg border border-rail-line bg-rail text-rail-text shadow-pop">
       <div className="flex flex-wrap items-start gap-x-12 gap-y-6 px-6 py-6 sm:px-8 sm:py-7">
         <div className="min-w-0 max-w-lg">
           <div className="flex items-center gap-2">

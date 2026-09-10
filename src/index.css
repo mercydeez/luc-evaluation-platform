@@ -1,33 +1,37 @@
 @import 'tailwindcss';
 
+/* The theme is chosen by the viewer and stamped on the root, so the dark variant
+   follows that attribute rather than the operating system. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /*
   Learners Education brand system.
 
-  Green (#259D4A) and deep teal (#0B434B) are taken from the official logo.
+  Green (#259D4A) and deep teal (#0B434B) are taken from the official logo file.
   Everything neutral is tinted from the teal rather than mixed from grey, so the
   interface stays in the same family as the marketing site.
 
   Green carries one meaning in this product and only one: verified, pinned,
-  reproducible. It is never used for decoration, which is why a green badge is
-  worth reading.
+  reproducible. It is never used for decoration, which is what makes a green
+  badge worth reading.
+
+  Every colour is named once, in the light palette. The dark theme below
+  redefines the same names and nothing else, so no component knows or asks
+  which theme it is being rendered in.
 */
 @theme {
   --font-sans: 'Switzer', 'PP Neue Montreal', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  --color-paper: #f6f7f4;
+  --color-paper: #f6f8f4;
   --color-surface: #ffffff;
+  --color-raised: #ffffff;
   --color-ink: #0b434b;
   --color-ink-deep: #08343a;
   --color-ink-soft: #3e6a70;
   --color-ink-faint: #52777c;
   --color-line: #dde5e0;
   --color-line-strong: #c3d2cc;
-
-  --color-rail: #08343a;
-  --color-rail-text: #e3ede9;
-  --color-rail-muted: #8fb0ae;
-  --color-rail-line: #14484f;
 
   --color-verified: #259d4a;
   --color-verified-ink: #1c7738;
@@ -44,16 +48,67 @@
   --color-hold-bg: #fdede7;
   --color-hold-line: #f6cdbf;
 
+  /* The dark chrome used for authority surfaces in both themes. */
+  --color-rail: #08343a;
+  --color-rail-text: #e3ede9;
+  --color-rail-muted: #8fb0ae;
+  --color-rail-line: #14484f;
+
   --radius-sm: 10px;
   --radius-card: 16px;
   --radius-lg: 22px;
-  --radius-xl: 30px;
+  --radius-xl: 34px;
 
   --shadow-card: 0 1px 2px rgb(11 67 75 / 0.05), 0 10px 26px -14px rgb(11 67 75 / 0.18);
   --shadow-pop: 0 2px 6px rgb(11 67 75 / 0.06), 0 22px 48px -20px rgb(11 67 75 / 0.28);
-  --shadow-rail: 0 1px 2px rgb(0 0 0 / 0.3), 0 18px 40px -22px rgb(0 0 0 / 0.55);
+  --shadow-float: 0 1px 2px rgb(11 67 75 / 0.04), 0 14px 38px -20px rgb(11 67 75 / 0.24);
 
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+  Dark theme.
+
+  Same names, different values. The ground is deep teal rather than black
+  because the brand is teal, and because a grading tool read late at night
+  should still look like the institution that runs it.
+*/
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-paper: #04222a;
+  --color-surface: #0a3038;
+  --color-raised: #0d3a43;
+  --color-ink: #e6f0ed;
+  --color-ink-deep: #ffffff;
+  --color-ink-soft: #a6c4c2;
+  --color-ink-faint: #7fa5a6;
+  --color-line: #17434a;
+  --color-line-strong: #235a62;
+
+  --color-verified: #3fbf6e;
+  --color-verified-ink: #7fdca3;
+  --color-verified-bg: #0e3d26;
+  --color-verified-line: #1c5c39;
+
+  --color-review: #e9a82c;
+  --color-review-ink: #f0c97a;
+  --color-review-bg: #392c11;
+  --color-review-line: #574317;
+
+  --color-hold: #fa7e5c;
+  --color-hold-ink: #f8a98f;
+  --color-hold-bg: #3d1d14;
+  --color-hold-line: #5e2e20;
+
+  --color-rail: #072a31;
+  --color-rail-text: #e6f0ed;
+  --color-rail-muted: #8fb0ae;
+  --color-rail-line: #17434a;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 30px -18px rgb(0 0 0 / 0.6);
+  --shadow-pop: 0 2px 8px rgb(0 0 0 / 0.35), 0 26px 56px -22px rgb(0 0 0 / 0.7);
+  --shadow-float: 0 1px 2px rgb(0 0 0 / 0.28), 0 16px 40px -22px rgb(0 0 0 / 0.55);
 }
 
 @layer base {
@@ -67,8 +122,8 @@
   }
 
   ::selection {
-    background: #cdead7;
-    color: var(--color-ink-deep);
+    background: color-mix(in oklab, var(--color-verified) 34%, transparent);
+    color: var(--color-ink);
   }
 
   html {
@@ -79,8 +134,11 @@
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    font-size: 1.0625rem;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* A theme change should read as a light being turned down, not a repaint. */
+    transition: background-color 260ms var(--ease-out-quint), color 260ms var(--ease-out-quint);
   }
 
   /* Numbers that sit in a column have to line up. */
@@ -149,17 +207,28 @@
     letter-spacing: -0.01em;
     padding: 0.1875rem 0.4375rem;
     border-radius: 6px;
-    background: color-mix(in oklab, var(--color-ink) 6%, transparent);
+    background: color-mix(in oklab, var(--color-ink) 8%, transparent);
     color: var(--color-ink-soft);
     white-space: nowrap;
   }
 
   .label {
+    font-family: var(--font-mono);
     font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-ink-faint);
+  }
+
+  /* The display voice. Large, light and tightly tracked, so a one-word title
+     can carry a whole screen on its own. */
+  .display {
+    font-size: clamp(2.5rem, 1.55rem + 3.6vw, 3.4rem);
+    line-height: 1.04;
+    font-weight: 500;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
   }
 }
 
@@ -174,4 +243,9 @@
 @keyframes pulse-run {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.45; }
+}
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateX(18px); }
+  to { opacity: 1; transform: none; }
 }

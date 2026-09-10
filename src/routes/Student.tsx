@@ -1,7 +1,7 @@
 import { FileDown, Scale } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { EvaluationKeyChip } from '../components/EvaluationKeyChip'
-import { Badge, Button, Card, CardHead, DataRow, Meter, Note, PageHead } from '../components/ui'
+import { Badge, Button, Card, CardHead, DataRow, Meter, Note, StepHead } from '../components/ui'
 import { COURSE, SUBMISSIONS } from '../data/samples'
 import { useStore } from '../engine/store'
 import { useSeed } from '../hooks'
@@ -20,7 +20,7 @@ export default function Student() {
 
   return (
     <>
-      <PageHead
+      <StepHead
         title={`${submission.student}'s view`}
         meta={`${COURSE.code} · ${COURSE.name} · student portal`}
         actions={
@@ -31,7 +31,7 @@ export default function Student() {
       >
         Everything a student can see about how their grade was produced. Nothing here is a number without a reason
         attached to it.
-      </PageHead>
+      </StepHead>
 
       {!published ? (
         <Card className="max-w-3xl">

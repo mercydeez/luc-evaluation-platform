@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import type { ComponentProps, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { stepFor } from '../steps'
 
 export type Tone = 'neutral' | 'verified' | 'review' | 'hold' | 'ink'
 
@@ -9,7 +10,7 @@ const TONE_SURFACE: Record<Tone, string> = {
   verified: 'bg-verified-bg text-verified-ink border-verified-line',
   review: 'bg-review-bg text-review-ink border-review-line',
   hold: 'bg-hold-bg text-hold-ink border-hold-line',
-  ink: 'bg-ink text-white border-ink',
+  ink: 'bg-ink text-surface border-ink',
 }
 
 const TONE_DOT: Record<Tone, string> = {
@@ -87,7 +88,7 @@ type ButtonProps = ComponentProps<'button'> & {
 
 const VARIANTS: Record<NonNullable<ButtonProps['variant']>, string> = {
   primary:
-    'bg-ink text-white border-ink hover:bg-ink-deep disabled:bg-line-strong disabled:border-line-strong disabled:text-white',
+    'bg-ink text-surface border-ink hover:bg-ink-deep disabled:bg-line-strong disabled:border-line-strong disabled:text-surface',
   secondary:
     'bg-surface text-ink border-line-strong hover:border-ink hover:bg-paper disabled:text-ink-faint disabled:border-line disabled:hover:bg-surface',
   ghost:
@@ -218,28 +219,83 @@ export function Meter({ value, tone = 'ink' }: { value: number; tone?: Tone }) {
   )
 }
 
-export function PageHead({
+/**
+ * The head of a walkthrough screen.
+ *
+ * The kicker is not a label for the heading; it is the line the heading cannot
+ * carry on its own. Where there is nothing to add, no kicker is written, and
+ * the heading stands by itself.
+ */
+export function StepHead({
   title,
+  kicker,
   meta,
-  children,
   actions,
+  children,
 }: {
-  title: string
+  /** Overrides the step title where the screen is about a person, not a stage. */
+  title?: string
+  kicker?: string
   meta?: ReactNode
-  children?: ReactNode
   actions?: ReactNode
+  children?: ReactNode
 }) {
+  const { pathname } = useLocation()
+  const step = stepFor(pathname)
+  if (!step) return null
+
   return (
-    <header className="mb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-      <div className="min-w-0 max-w-2xl">
-        <h1 className="text-[1.75rem] leading-[1.1] font-medium tracking-[-0.035em] text-ink text-balance sm:text-[2rem]">
-          {title}
-        </h1>
-        {meta && <p className="mt-2 text-[0.8125rem] text-ink-faint">{meta}</p>}
-        {children && <div className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">{children}</div>}
+    <header className="mb-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+      <div className="min-w-0 max-w-3xl">
+        <p className="label">{kicker ?? step.kicker}</p>
+        <h1 className="display mt-3 text-ink">{title ?? step.title}</h1>
+        <p className="mt-4 max-w-[62ch] text-[1.0625rem] leading-relaxed text-ink-soft">{children ?? step.lede}</p>
+        {meta && <p className="mt-3 font-mono text-[0.75rem] tracking-tight text-ink-faint">{meta}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </header>
+  )
+}
+
+/**
+ * Figures in a row, separated by hairlines rather than boxed into cards. A
+ * metric is a reading, not an object, and four identical cards say otherwise.
+ */
+export function MetricStrip({
+  items,
+  className,
+}: {
+  items: { value: ReactNode; label: string; note?: ReactNode; tone?: Tone }[]
+  className?: string
+}) {
+  return (
+    <dl
+      className={clsx(
+        'grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-4',
+        className,
+      )}
+    >
+      {items.map((item) => (
+        <div key={item.label} className="bg-surface px-5 py-4">
+          <dd
+            className={clsx(
+              'text-[1.625rem] leading-none font-medium tracking-[-0.03em] tabular-nums',
+              item.tone === 'verified'
+                ? 'text-verified-ink'
+                : item.tone === 'hold'
+                  ? 'text-hold-ink'
+                  : item.tone === 'review'
+                    ? 'text-review-ink'
+                    : 'text-ink',
+            )}
+          >
+            {item.value}
+          </dd>
+          <dt className="label mt-2.5">{item.label}</dt>
+          {item.note && <p className="mt-1.5 text-[0.75rem] leading-snug text-ink-faint">{item.note}</p>}
+        </div>
+      ))}
+    </dl>
   )
 }
 

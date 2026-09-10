@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useState } from 'react'
 import { KeyRef } from '../components/EvaluationKeyChip'
-import { Badge, Card, CardHead, Empty, Note, PageHead } from '../components/ui'
+import { Badge, Card, CardHead, Empty, Note, StepHead } from '../components/ui'
 import { useStore } from '../engine/store'
 import { useSeed } from '../hooks'
 
@@ -26,13 +26,12 @@ export default function Audit() {
 
   return (
     <>
-      <PageHead
-        title="Audit log"
+      <StepHead
         meta={`${audit.length} entries · append-only · every entry replayable from its evaluation key`}
       >
         Who did what, when, and on what grounds. Entries are added and never edited, which is what separates a grade
         change that can be explained from one that cannot.
-      </PageHead>
+      </StepHead>
 
       <div className="mb-4 flex flex-wrap gap-1.5">
         <FilterChip active={filter === 'all'} onClick={() => setFilter('all')}>
@@ -116,7 +115,7 @@ function FilterChip({
       onClick={onClick}
       className={clsx(
         'rounded-full border px-3 py-1.5 font-mono text-[0.6875rem] transition-colors',
-        active ? 'border-ink bg-ink text-white' : 'border-line text-ink-soft hover:border-line-strong hover:text-ink',
+        active ? 'border-ink bg-ink text-surface' : 'border-line text-ink-soft hover:border-line-strong hover:text-ink',
       )}
     >
       {children}

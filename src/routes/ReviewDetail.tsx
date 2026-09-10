@@ -3,7 +3,7 @@ import { ArrowLeft, Check, Minus, Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CriteriaList, VerdictHeader } from '../components/Verdict'
-import { Badge, Button, Card, CardHead, Empty, Note, PageHead } from '../components/ui'
+import { Badge, Button, Card, CardHead, Empty, Note, StepHead } from '../components/ui'
 import { SUBMISSIONS } from '../data/samples'
 import { REVIEW_THRESHOLD } from '../engine/pipeline'
 import { letterFor } from '../engine/rubric'
@@ -36,7 +36,7 @@ export default function ReviewDetail() {
     return (
       <>
         <BackLink />
-        <PageHead title={submission.student} meta={`${submission.studentId} · ${submission.fileName}`} />
+        <StepHead title={submission.student} meta={`${submission.studentId} · ${submission.fileName}`} />
         <Note tone="review" title="This submission was never graded">
           It did not clear the pipeline, so there is no verdict to review. Held and rejected work is handled from the
           overview, with the failed check attached, rather than being given a mark to defend.
@@ -103,7 +103,7 @@ function Decision({
   return (
     <>
       <BackLink />
-      <PageHead
+      <StepHead
         title={submission.student}
         meta={`${submission.studentId} · ${submission.assignment} · attempt ${submission.attempt} · submitted ${new Date(submission.submittedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`}
         actions={
@@ -238,7 +238,7 @@ function Decision({
                         className={clsx(
                           'rounded-full border px-2.5 py-1 text-left text-[0.6875rem] leading-snug transition-colors',
                           reason === preset
-                            ? 'border-ink bg-ink text-white'
+                            ? 'border-ink bg-ink text-surface'
                             : 'border-line text-ink-soft hover:border-line-strong hover:text-ink',
                         )}
                       >
